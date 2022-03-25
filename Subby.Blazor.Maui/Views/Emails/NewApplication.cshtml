@@ -1,0 +1,13 @@
+﻿@model             Subby.Blazor.Maui.Models.EmailViewModels.NewApplicationModel
+<strong>RE: @Model.JobTitle</strong>
+<br />
+<br />
+Dear @Model.User
+<br />
+<br />
+@Model.ApplicationName has submit an application for @Model.JobTitle, please use the link below to view the application
+<br />
+<br />
+
+<a href="@Model.CallBackUrl">@Model.CallBackUrl</a>
+

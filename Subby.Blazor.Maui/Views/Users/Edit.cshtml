@@ -1,0 +1,51 @@
+﻿@using Subby.Blazor.Maui.Models
+@model             Subby.Blazor.Maui.Models.AdminViewModels.UserViewModel
+@{
+    ViewData["Title"] = "Update User";
+    var header = new Header
+    {
+        Title = "Update Users",
+        DisplayReturn = true,
+        Url = Url.Action("Index", "Users")
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <p>To update user record, please fill the details below:</p>
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.Id" value="@Model.Id"/>
+                <div class="form-group">
+                    <label asp-for="FirstName" class="form-label"></label>
+                    <input asp-for="FirstName" class="form-control" placeholder=""/>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-label"></label>
+                    <input asp-for="LastName" class="form-control" placeholder=""/>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" placeholder=""/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Role" class="form-label"></label>
+                    @Html.DropDownList("Role", (IEnumerable<SelectListItem>) ViewData["Roles"], new {id = "Role", name = "Role", @class = "form-control"})
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                    <p class="text-muted hint"></p>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 text-center">
+                        
+                        <button type="submit" id="apply-job" class="btn btn-primary mb-3 btn-block">Submit</button>
+                        <div class="clearfix"></div>
+                        <a asp-controller="Users" asp-action="Index" class="text-muted">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

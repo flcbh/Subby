@@ -1,0 +1,28 @@
+﻿@using Subby.Blazor.Maui.Models
+@{
+    ViewData["Title"] = "About Us";
+    var header = new Header
+    {
+        Title = "About Sustainability Yard",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4 legal-notes">
+            <h1 class="subtitle">ABOUT US</h1>
+            <p>
+                You can buy, sell & give away your excess building materials on the Sustainability Yard App. Sustainability Yard has been built to introduce a secondary materials market in to the construction industry. We help promote the circular economy of materials rather than letting them find their way to landfill. Our App is free to download. Enquiries - nigel@sustainabilitiyyard.com
+            </p>
+            <p> We keep things really simple.</p>
+            <div class="mb-4">
+                <h5>Enquiries</h5>
+                <a href="mailto:nigel@subbynetwork.com">nigel@subbynetwork.com</a>
+            </div>
+            <h5>Contact us</h5>
+            <a href="tel:01618182323">(+44) 161 818 2323</a>
+        </div>
+    </div>
+</div>
+<partial name="Partials/_PartialBottomStack" />

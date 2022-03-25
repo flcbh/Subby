@@ -1,0 +1,140 @@
+.table {
+  &.clean {
+    thead {
+      tr {
+        th {
+          font-size: 0.8rem;
+          font-weight: 400;
+          padding: 1rem;
+          vertical-align: bottom;
+          border-bottom: 0;
+
+          span {
+            font-size: 0.7rem;
+            display: block;
+            color: #6c757d;
+            font-weight: 500;
+          }
+
+          a {
+            color: #212529;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          font-size: 0.9rem;
+          border-top: 1px solid #e9ecef;
+          border-bottom: 0;
+          padding: 1rem;
+
+          small {
+            font-weight: 400;
+          }
+        }
+
+        .btn-outline-secondary {
+          font-size: 0.9rem;
+
+          i {
+            font-size: 0.8rem;
+          }
+        }
+
+        &:nth-child(odd) {
+          background-color: #f9f9f9;
+        }
+      }
+    }
+  }
+}
+
+.table {
+  display: table;
+  border-collapse: separate;
+}
+
+.table_row {
+  display: table-row;
+  
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.theader {
+  display: table-row;
+}
+
+.table_header {
+  display: table-cell;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.table_small {
+  display: table-cell;
+}
+
+.table_row > .table_small > .table_cell:nth-child(odd) {
+  display: none;
+  background: #f9f9f9;
+  color: #e5e5e5;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.table_row > .table_small > .table_cell {
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 0;
+  padding: 1rem;
+  font-weight: 400;
+  text-align: left;
+  min-width: 150px;
+}
+
+.table_row:nth-child(2n + 3) {
+  background: #f9f9f9;
+}
+
+@media screen and (max-width: 650px) {
+  .table {
+    display: block;
+  }
+  .table_row:nth-child(2n + 3) {
+    background: none;
+  }
+  .theader {
+    display: none;
+  }
+  .table_row > .table_small > .table_cell:nth-child(odd) {
+    display: table-cell;
+    width: 50%;
+    color: #333333;
+    text-align: left;
+  }
+  .table_cell {
+    display: table-cell;
+    width: 50%;
+    max-width: 190px;
+  }
+  .table_row {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    padding-bottom: 20px;
+    margin: 5% auto 0;
+    text-align: center;
+  }
+  .table_small {
+    display: table-row;
+  }
+
+  .table_row > .table_small:last-child > .table_cell:last-child {
+    border-bottom: #f9f9f9 1px solid;
+  }
+}

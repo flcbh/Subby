@@ -1,0 +1,8 @@
+
+    create table [Configuration] (
+        Id INT IDENTITY NOT NULL,
+       [Key] NVARCHAR(255) null,
+       [Value] NVARCHAR(255) null,
+       ModifiedDate DATETIME2 null,
+       primary key (Id)
+    )

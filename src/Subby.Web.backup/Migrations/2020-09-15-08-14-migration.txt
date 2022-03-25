@@ -1,0 +1,12 @@
+
+    create table [Sponsor] (
+        Id INT IDENTITY NOT NULL,
+       Name NVARCHAR(255) null,
+       Logo NVARCHAR(255) null,
+       Phone NVARCHAR(255) null,
+       Website NVARCHAR(255) null,
+       IsActive BIT null,
+       CreatedAt DATETIME2 null,
+       LiveDate DATETIME2 null,
+       primary key (Id)
+    )

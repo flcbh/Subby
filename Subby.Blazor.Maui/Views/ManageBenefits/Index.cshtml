@@ -1,0 +1,54 @@
+﻿@using NHibernate.Util
+@using Subby.Blazor.Maui.Models
+@using Subby.Blazor.Maui.ViewComponents
+@model LastContent.Utilities.Pagination.PagedResult<Subby.Core.Entities.Benefit>
+@{
+    ViewData["Title"] = "Benefits";
+    var header = new Header
+    {
+        Title = "Benefits",
+        DisplayReturn = true,
+        Url = Url.Action("Index", "Admin")
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="admin mt-3 ">
+    <div class="container-fluid">
+        <h5 class="float-left">Benefits</h5>
+        <a asp-controller="ManageBenefits" asp-action="Add" class="btn btn-outline-secondary btn-sm float-right">
+            Add New Benefit
+        </a>
+        <div class="clearfix"></div>
+        <div class="card mt-3">
+            <div class="card-body p-0">
+                <div class="clearfix"></div>
+                <div class="table">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="table_row">
+                            <div class="table_small">
+                                <div class="table_cell">Name</div>
+                                <div class="table_cell">@item.Title</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Active</div>
+                                <div class="table_cell">@(item.Active ? "Yes" : "No")</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell"></div>
+                                <div class="table_cell">
+                                    <a asp-controller="ManageBenefits" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">
+                                        Edit
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="mt-2 mb-2">
+                    @(await Component.InvokeAsync<PagerViewComponent>(Model))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

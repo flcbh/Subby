@@ -1,0 +1,33 @@
+
+    create table [Subscription] (
+        Id INT IDENTITY NOT NULL,
+       Amount DECIMAL(19,5) null,
+       ExpiryDate DATETIME2 null,
+       CreatedAt DATETIME2 null,
+       User_id INT null,
+       primary key (Id)
+    )
+    create table [Transaction] (
+        Id INT IDENTITY NOT NULL,
+       Amount DECIMAL(19,5) null,
+       Reference NVARCHAR(255) null,
+       ExternalReference NVARCHAR(255) null,
+       Secret NVARCHAR(255) null,
+       Token NVARCHAR(255) null,
+       Uuid NVARCHAR(255) null,
+       Status NVARCHAR(255) null,
+       Response NVARCHAR(255) null,
+       PaymentProvider NVARCHAR(255) null,
+       CreatedAt DATETIME2 null,
+       Currency NVARCHAR(255) null,
+       Subscription_id INT null,
+       primary key (Id)
+    )
+    alter table [Subscription] 
+        add constraint FK_1D720D43 
+        foreign key (User_id) 
+        references [User]
+    alter table [Transaction] 
+        add constraint FK_A746D101 
+        foreign key (Subscription_id) 
+        references [Subscription]

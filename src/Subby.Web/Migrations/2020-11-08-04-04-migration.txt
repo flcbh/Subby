@@ -1,0 +1,9 @@
+
+    alter table [Benefit] 
+        add Active BIT
+    alter table [Sponsor] 
+        add Benefit_id INT
+    alter table [Sponsor] 
+        add constraint FK_A324256A 
+        foreign key (Benefit_id) 
+        references [Benefit]

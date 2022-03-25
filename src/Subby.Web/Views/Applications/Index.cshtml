@@ -1,0 +1,122 @@
+﻿@using LastContent.Utilities.Extensions
+@using Subby.Core.Entities
+@using Subby.Utilities.Extensions
+@using Subby.Web.Models
+@using Subby.Web.ViewComponents
+@model LastContent.Utilities.Pagination.PagedResult<Subby.Core.Entities.JobApplication>
+@{
+    ViewData["Title"] = "Jobs";
+    string filters = Context.Request.Query["filters"].ToString();
+    var jobData = ViewData["Job"] as Job;
+    var header = new Header
+    {
+        Title = "Applications",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="container">
+
+    <h1 class="subtitle mt-3">Hi @User.Identity.FirstName(), you have <strong>@Model.RowCount</strong> applications submitted for @jobData.Title</h1>
+
+    <div class="jobs-wrapper">
+        <div class="btn-group d-flex job-filters" role="group" aria-label="Basic example">
+            <a asp-controller="Applications" asp-action="Index" class="btn btn-outline-secondary @(filters == "" ? "active" : "")" asp-route-filters="">All</a>
+            <a asp-controller="Applications" asp-action="Index" class="btn btn-outline-secondary @(filters == "rejected" ? "active" : "")" asp-route-filters="rejected">
+                Not Suitable
+            </a>
+        </div>
+
+        <div class="row">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-md-12 col-lg-6">
+                    <div class="job-card mb-0">
+                        <div class="job-card-body">
+                            <h6>
+                                <strong>@item.Firstname @item.Lastname</strong>
+                            </h6>
+                            <p>Email: <a href="mailto:@item.Email" target="_system">@item.Email</a></p>
+                            <p>Phone: <a href="tel:@item.Phone"  target="_system">@item.Phone</a></p>
+                            <p>Eligible to work in the EU: @(item.EligibleToWorkInEu ? "Yes" : "No")</p>
+                            <p>Eligible to work in the UK: @(item.EligibleToWorkInUk ? "Yes" : "No")</p>
+                            <p>Quote: @item.Quote</p>
+                            <p>Estimation: @item.Estimation</p>
+                            @if (!string.IsNullOrEmpty(item.File))
+                            {
+                                <p>
+                                    CV:
+                                    <a href="~/uploads/@item.File" target="_blank">
+
+                                        Download CV
+                                    </a>
+                                </p>
+                            }
+                            <p class="text-muted">Applied: @item.CreatedAt.TimeAgo()</p>
+
+                            @if (!item.Rejected)
+                            {
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="tel:@item.Phone" class="btn btn-secondary" target="_system">Call</a>
+                                    <a href="mailto:@item.Email" class="btn btn-secondary" target="_system">Email</a>
+                                    <button type="button" class="btn btn-secondary" onclick="Reject(@item.Id)">Not Suitable</button>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="tel:@item.Phone" class="btn btn-secondary" target="_system">Call</a>
+                                    <a href="mailto:@item.Email" class="btn btn-secondary" target="_system">Email</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.RowCount == 0)
+            {
+                <div class="col-md-6 offset-md-3 mt-5">
+                    <h5>No jobs currently match your search criteria</h5>
+                    <p>Search suggestions:</p>
+                    <ul>
+                        <li>Use a postcode instead of a city and county</li>
+                        <li>Make sure the city and county are spelled correctly</li>
+                        <li>Remove all active filters</li>
+                    </ul>
+                </div>
+            }
+
+        </div>
+        <div class="mt-2 mb-2">
+            @(await Component.InvokeAsync<PagerViewComponent>(Model))
+        </div>
+    </div>
+</div>
+<partial name="Partials/_PartialBottomStack"/>
+
+@section scripts
+{
+    <script>
+    function Reject(id) {
+        $.ajax({
+            type: "POST",
+            headers: {
+                'Content-Type':'application/json'
+            },
+            url: '/api/applications',
+            data: JSON.stringify({
+                id: id
+            }),
+            success: function (data) {
+                window.location.reload();
+            },
+            failure: function (response) {
+
+            },
+            error: function (response) {
+           
+            }
+        });
+    }
+    </script>
+}

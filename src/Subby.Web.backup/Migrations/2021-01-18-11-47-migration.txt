@@ -1,0 +1,3 @@
+
+    alter table [UserReview] 
+        add [User_id] INT

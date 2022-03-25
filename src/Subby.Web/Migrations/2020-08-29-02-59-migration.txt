@@ -1,0 +1,7 @@
+
+    alter table [Subscription] 
+        add Transaction_id INT
+    alter table [Subscription] 
+        add constraint FK_A7770EA7 
+        foreign key (Transaction_id) 
+        references [Transaction]

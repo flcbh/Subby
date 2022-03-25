@@ -1,0 +1,3 @@
+
+    alter table [User] 
+        add PushToken NVARCHAR(255)

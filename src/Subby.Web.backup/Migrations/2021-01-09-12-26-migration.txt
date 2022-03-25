@@ -1,0 +1,11 @@
+
+    create table [UserToken] (
+        Id INT IDENTITY NOT NULL,
+       Token NVARCHAR(255) null,
+       User_id INT null,
+       primary key (Id)
+    )
+    alter table [UserToken] 
+        add constraint FK_87DEA058 
+        foreign key (User_id) 
+        references [User]

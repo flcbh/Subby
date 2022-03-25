@@ -1,0 +1,3 @@
+
+    alter table [Subscription] 
+        add [Plan] NVARCHAR(255)

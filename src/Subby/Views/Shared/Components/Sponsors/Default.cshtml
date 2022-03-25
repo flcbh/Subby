@@ -1,0 +1,58 @@
+﻿@using Microsoft.EntityFrameworkCore.Internal
+@model IEnumerable<Subby.Core.Entities.Sponsor>;
+@{
+    var isPremium = ViewContext.RouteData.Values["Action"].ToString() == "Premium";
+}
+@if (Model.Any())
+{
+    @if (!isPremium)
+    {
+        <h6 class="text-left">Sponsors</h6>    
+    }
+    
+    <div class="box text-left">
+        <ul class="list-unstyled benefit-list">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <div class="icon-text">
+                        <div class="icon">
+                            @if (!string.IsNullOrEmpty(item.Logo))
+                            {
+                                if (item.Logo.Contains("http"))
+                                {
+                                    <img src="@item.Logo" class="avatar" alt="@item.Name"/>    
+                                }
+                                else
+                                {
+                                    <img src="~/sponsors/@item.Logo" class="avatar" alt="@item.Name"/>
+                                }
+                            }
+                            else
+                            {
+                                <img src="https://app.subbynetwork.com/images/icons/logo.png" class="avatar default" alt="@item.Name"/>
+                            }
+                        </div>
+                        <div class="text">
+                            <h6>@item.Name</h6>
+                            <p class="mb-0">
+                                @if (!isPremium)
+                                {
+                                    <span>Tel: @item.Phone</span>    
+                                }
+                                
+                                @if (!string.IsNullOrEmpty(item.Website) && !isPremium)
+                                {
+                                    <span>
+                                        | Website:
+                                        <a href="@item.Website" target="_blank"> @item.Website </a>
+                                    </span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+}

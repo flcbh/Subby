@@ -1,0 +1,67 @@
+﻿@using Subby.Blazor.Maui.Models
+@model Subby.Core.Entities.Benefit
+@{
+    ViewData["Title"] = "Sponsors";
+    var header = new Header
+    {
+        Title = "Sponsors",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <h6>@Model.Title</h6>
+            <div class="box text-left">
+                <ul class="list-unstyled benefit-list">
+                    @if (!Model.Sponsors.Any())
+                    {
+                        <li class="mb-0">More member benefits coming soon!</li>
+                    }
+                    @foreach (var item in Model.Sponsors)
+                    {
+                        <li>
+                            <div class="icon-text">
+                                <div class="icon">
+                                    @if (!string.IsNullOrEmpty(item.Sponsor.Logo))
+                                    {
+                                        if (item.Sponsor.Logo.Contains("http"))
+                                        {
+                                            <img src="@item.Sponsor.Logo" class="avatar" alt="@item.Sponsor.Name"/>
+                                        }
+                                        else
+                                        {
+                                            <img src="~/sponsors/@item.Sponsor.Logo" class="avatar" alt="@item.Sponsor.Name"/>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img src="https://app.subbynetwork.com/images/icons/logo.png" class="avatar default" alt="@item.Sponsor.Name"/>
+                                    }
+                                </div>
+                                <div class="text">
+                                    <h6>@item.Sponsor.Name</h6>
+                                    <p class="mb-0">
+
+                                        <span>Tel: @item.Sponsor.Phone</span>
+
+
+                                        @if (!string.IsNullOrEmpty(item.Sponsor.Website))
+                                        {
+                                            <span>
+                                                | Website:
+                                                <a href="@item.Sponsor.Website" target="_blank"> @item.Sponsor.Website </a>
+                                            </span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="Partials/_PartialBottomStack"/>

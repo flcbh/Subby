@@ -1,0 +1,88 @@
+﻿@using Subby.Utilities.Extensions
+@using Subby.Blazor.Maui.Models
+@using Subby.Blazor.Maui.ViewComponents
+@using LastContent.Utilities.Extensions
+@using System.Text.RegularExpressions
+@using Subby.Core.Entities
+@model ChatChannel
+@{
+    ViewData["Title"] = $"Conversation {Model.Title}";
+  var displayUser = Model.MemberCollection.FirstOrDefault(x => x.User.Id != User.Identity.GetId())?.User;
+}
+<div class="chat-panel">
+  <div class="contact bar">
+    <div class="container">
+      <div class="back-icon">
+        <a asp-action="Index" asp-controller="Chats">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </a>
+      </div>
+      <div class="row">
+        <div class="col-9">
+          <div class="name mt-2">
+            @displayUser?.FirstName @displayUser?.LastName
+            
+          </div>
+            <div class="seen">
+              @Model.Title
+            </div>
+        </div>
+        <div class="col-3 ml-auto action-menu">
+          @if (!string.IsNullOrEmpty(displayUser?.PhoneNumber))
+          {
+            <div class="circle-icon">
+              <a href="tel:@displayUser?.PhoneNumber">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                </svg>
+              </a>
+            </div>
+          }
+          
+        </div>
+      </div>
+    </div>
+    
+  </div>
+    <div class="chat">
+        <div class="messages" id="chat">
+          @foreach (var g in Model.ChatCollection.OrderBy(x => x.CreatedAt).GroupBy(y => y.CreatedAt.Date))
+          {
+            <p class="text-center time">@g.FirstOrDefault()?.CreatedAt.ToTimeAgo()</p>
+            foreach (var item in g)
+            {
+              <div class="message @(item.User.Id == User.Identity.GetId() ? "current-user" : "")">
+                <span class="name">@item.User.FirstName @item.User.LastName</span>
+                @item.Message
+                <span class="timestamp">@item.CreatedAt.ToShortTimeString()</span>
+              </div>
+            }
+          }
+        </div>
+        <div class="input">
+          <form method="POST" asp-action="Send">
+            <input type="hidden" name="ChannelId" value="@Model.Id" />
+            <input placeholder="Type your message here!" name="Message" type="text" autocomplete="off" />
+            <button class="btn btn-outline-secondary" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-cursor" viewBox="0 0 16 16">
+                <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+</div>
+
+@section scripts
+{
+  <script>
+    
+         $(document).ready(function() {
+            var chat = document.getElementById('chat');
+             chat.scrollTop = chat.scrollHeight - chat.clientHeight;  
+         });
+        
+    </script>
+}

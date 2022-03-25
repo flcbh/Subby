@@ -1,0 +1,68 @@
+﻿
+.header {
+  padding-top: 1.5rem;
+  padding-bottom: 0.8rem;
+  background-color: $primary;
+
+  p {
+    margin-bottom: 0;
+    font-size: 0.85rem;
+  }
+
+  h2 {
+    font-weight: 600;
+    margin-bottom: 0;
+    font-size: 1.4rem;
+  }
+
+  .user-icon {
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    float: right;
+    
+    span {
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+  }
+
+  .greetings {
+    display: flex;
+    align-items: center;
+
+    .logo {
+      width: 35px;
+      padding-top: 7px;
+      float: left;
+    }
+
+    .greeting-body {
+      margin-left: 1rem;
+      float: left;
+      
+      &.small {
+        h2 {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    &.full {
+      .logo {
+        width: 200px;
+      }
+      .greeting-body {
+        margin-top: -5px;
+        margin-left: 42px;
+        position: absolute;
+      }
+      
+    }
+  }
+}

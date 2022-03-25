@@ -1,0 +1,7 @@
+
+    alter table [UserReview] 
+        add [User_id] INT
+    alter table [UserReview] 
+        add constraint FK_E0E7EFAD 
+        foreign key ([User_id]) 
+        references [User]

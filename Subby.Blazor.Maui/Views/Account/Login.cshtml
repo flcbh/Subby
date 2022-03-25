@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Subby.Core.Entities
+@model            Subby.Blazor.Maui.Models.AccountViewModels.LoginViewModel
+@inject SignInManager<User> SignInManager
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_LayoutBasic";
+}
+@* <p class="alert alert-info">Welcome to our brand new app it offers a fresh new look, easier navigation. If you are one of our existing customer please click <a asp-action="ForgotPassword">forgot your password</a> to receive a reset password email.</p> *@
+<div class="form-signin">
+    <partial name="Partials/_PartialBasicHeader"/>
+    <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+        <div class="mb-4 text-dark">
+            <h5 class="text-dark mb-0">Let's sign you in.</h5>
+            <p>Welcome back.</p>
+        </div>
+        <input asp-for="PushToken" class="form-control" type="hidden" value="@ViewData["PushToken"]"/>
+        <div class="form-group">
+            <input asp-for="Email" class="form-control" placeholder="Email Address" type="email"/>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Password" class="form-control" placeholder="Password"/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <p class="mb-2">
+            <small>
+                <a asp-action="ForgotPassword" class="text-dark">Forgot your password?</a>
+            </small>
+        </p>
+
+        <div class="form-group text-center d-none">
+            <div class="checkbox">
+                <label asp-for="RememberMe">
+                    <input asp-for="RememberMe"/>
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default btn-block btn-lg" id="login-button" onclick="sendBack()">Log in</button>
+        </div>
+        <div class="form-group">
+            <p class="text-center">
+                <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" asp-route-pushtoken="@ViewData["PushToken"]" class="text-dark">
+                    <small>Register as a new user?</small>
+                </a>
+            </p>
+        </div>
+    </form>
+</div>
+@section scripts
+{ 
+    <script>
+        function sendBack() {
+            var email = $("#Email").val();
+            var password = $("#Password").val();
+            var message = '{"email":"' + email + '","password":"' + password +'"}';
+            messageHandler.postMessage(message);
+        }
+    </script>
+}
+

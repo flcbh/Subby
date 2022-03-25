@@ -1,0 +1,186 @@
+﻿@using Microsoft.EntityFrameworkCore.Internal
+@using Subby.Blazor.Maui.Models
+@model             Subby.Blazor.Maui.Models.AdminViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Admin";
+    var header = new Header
+    {
+        Title = "Admin Space",
+        DisplayReturn = true,
+        Url = @Url.Action("Index", "Jobs")
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="admin">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+                <div class="header-wrap mt-2">
+                    <h1 class="headline">Admin Space</h1>
+                    <p>Use this space to monitor your app traffic, revenue and stats</p>
+                    <p>
+                        <a asp-controller="Jobs" asp-action="Index" class="mb-5">← Return to the app</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Revenue</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-success"><i class="ti-arrow-up text-success"></i> £@(Math.Round(Model.Revenue, 2, MidpointRounding.AwayFromZero))</h2><span class="text-muted">&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Active Subscriptions</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-success">
+                                <i class="ti-arrow-up text-success"></i> @Model.CountSubscriptions</h2>
+                            <span class="text-muted">
+                                <a asp-controller="Subscriptions" asp-action="Index" class="text-muted">View Subscriptions</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Total Jobs</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-success">
+                                <i class="ti-arrow-up text-success"></i> @Model.CountJobs</h2><span class="text-muted">&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">New Jobs</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-success">
+                                <i class="ti-arrow-up text-success"></i> @Model.CountNewJobs</h2><span class="text-muted">Today</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Total Users</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-info">
+                                <i class="ti-arrow-up text-success"></i> @Model.Users.Count</h2>
+                            <span class="text-muted">
+                                <a asp-controller="Users" asp-action="Index" class="text-muted">Manage Users</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Sponsors</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-info">
+                                <i class="ti-arrow-up text-success"></i> @Model.Sponsors</h2>
+                            <span class="text-muted">
+                                <a asp-controller="Sponsors" asp-action="Index" class="text-muted">
+                                    Manage Sponsors
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Trades</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-info">
+                                <i class="ti-arrow-up text-success"></i> @Model.CountTrades</h2>
+                            <span class="text-muted">
+                                <a asp-controller="Trades" asp-action="Index" class="text-muted">
+                                    Manage Trades
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Configurations</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-info">
+                                <i class="ti-arrow-up text-success"></i> @Model.Configurations</h2>
+                            <span class="text-muted">
+                                <a asp-controller="Configurations" asp-action="Index" class="text-muted">
+                                    Manage Configurations
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Member Benefits</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-info">
+                                <i class="ti-arrow-up text-success"></i> @Model.Benefits</h2>
+                            <span class="text-muted">
+                                <a asp-controller="ManageBenefits" asp-action="Index" class="text-muted">
+                                    Manage Benefits
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h6>Advert Stats</h6>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Total Ads</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-success">
+                                <i class="ti-arrow-up text-success"></i> @Model.Adverts</h2><span class="text-muted">&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-stats">
+                    <div class="card-body p-4">
+                        <h4 class="card-title">Categories</h4>
+                        <div class="text-right">
+                            <h2 class="font-light font-weight-normal m-b-0 text-success">
+                                <i class="ti-arrow-up text-success"></i> @Model.AdvertCategories</h2><span class="text-muted">&nbsp;</span>
+                            <span class="text-muted">
+                                <a asp-controller="AdvertCategories" asp-action="Index" class="text-muted">
+                                    Manage Categories
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

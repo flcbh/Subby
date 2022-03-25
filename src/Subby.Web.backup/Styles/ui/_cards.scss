@@ -1,0 +1,322 @@
+.box {
+  background-color: #ffffff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  padding: 1rem 1.5rem;
+  margin: 1rem 0;
+  
+  &.blue {
+    background-color: $primary;
+    color: #ffffff;
+    padding: 1.5rem 2.5rem;
+    
+    .price-text {
+      font-size: 4rem;
+      font-weight: normal;
+      margin-bottom: 0;
+    }
+    
+    h5 {
+      font-size: 1.8rem;
+    }
+  }
+  
+  &.new-box {
+    h5 {
+      font-size: 1rem;
+    }
+
+    .price-text {
+      font-size: 2.5rem;
+      span {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+
+.jobs-wrapper {
+
+  .search-form{
+    margin: 1rem 0;
+
+    .input-group {
+      .input-group-text {
+        background-color: transparent !important;
+        border: 1.5px solid $primary;
+        border-right: 0;
+      }
+    }
+    
+    input {
+      border: 1.5px solid $primary;
+      border-left: 0;
+    }
+  }
+  
+  .link-theme {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border: 1px solid $primary;
+    border-radius: 5px;
+    color: $primary;
+    
+    
+    &.active {
+      color: #333333 !important;
+    }
+  }
+  
+
+  
+  .job-filters {
+    
+    .btn-outline-secondary {
+      border-color: $primary !important;
+      &.active, &:hover {
+        background-color: $primary !important;
+        color: #ffffff;
+      }
+      
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    
+    
+    //margin-left: -0.5rem;
+    li {
+      margin: 0.4rem 0.1rem;
+
+      a.nav-link {
+        padding: 0.4rem 1.5rem;
+        display: flex;
+
+        svg {
+          margin-right: 0.2rem;
+        }
+        
+        &.active {
+          background-color: $primary;
+          color: #ffffff;
+
+          svg {
+            fill: #ffffff;
+          }
+        }
+        
+        .icon {
+          margin: 0;
+        }
+      }
+    }
+  }
+  
+  .job-stats, .advert-stats {
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 1rem 1.5rem;
+    margin-top: -1.2rem;
+    
+    p {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .advert-stats {
+    padding: 1.5rem 1rem !important;
+  }
+  
+  .job-counter {
+    margin: 1rem 0 0;
+  }
+
+  .job-link {
+    color: initial;
+
+    &:hover {
+      text-decoration: none;
+      text-underline: none;
+      color: initial;
+    }
+  }
+
+  .job-card {
+    background-color: #ffffff;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+
+    .job-card-header {
+      h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0;
+      }
+
+      p {
+        color: #a2a2a2;
+        font-size: 0.8rem;
+      }
+
+      .job-logo {
+        float: left;
+        width: 50px;
+        height: 45px;
+        color: #ffffff;
+        border-radius: 5px;
+        margin-right: 1rem;
+
+      }
+    }
+
+    .job-card-body {
+
+    }
+
+    .job-card-footer {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.icon {
+  float: left;
+  font-size: 1rem;
+  margin-right: 0.8rem;
+
+  &.small {
+    font-size: 0.95rem;
+  }
+
+}
+
+.centered-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.job-details {
+  margin: 1rem 0 3rem;
+  
+  p {
+    line-height: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+}
+
+
+.job-specifications {
+  margin: 2rem 0;
+  
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  ul {
+    
+    li {
+      margin-bottom: 1rem;
+      .icon {
+        font-size: 1.5rem;
+
+        svg {
+          fill: #333333;
+        }
+      }
+    }
+  }
+
+
+}
+
+.card {
+  &.grey-bg {
+    background-color: rgb(247, 249, 250);
+  }
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  border: 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+
+  .card-header {
+    font-size: 1rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid rgb(211, 220, 224);
+    padding: 1.5rem;
+
+    h2 {
+      font-size: 1.1rem;
+      margin-bottom: 0;
+    }
+  }
+
+  .card-body {
+    padding: 40px 40px 30px;
+
+    h4 {
+      font-size: 1rem;
+    }
+
+    &.card-table {
+      padding: 0;
+
+      @media only screen and (max-width: 767px) {
+        padding: 0 1rem;
+      }
+    }
+  }
+
+  &.card-stats {
+    margin-bottom: 1.8rem;
+  }
+}
+
+.clean-list {
+  li {
+    margin-top: 1rem;
+  }
+}
+
+.advert-card {
+  margin-top: 1rem;
+  .card-body {
+    padding: 1rem 0.5rem 0.5rem;
+    
+    img {
+      max-width: 80px;
+    }
+  }
+  
+  h2 {
+    font-size: 0.85rem;
+  }
+  
+  .tag {
+    font-size: 0.65rem;
+    margin-bottom: 0;
+  }
+  
+  .price-tag {
+    font-size: 0.85rem;
+    
+    span {
+      display: block;
+      font-size: 0.65rem;
+      color: #a2a2a2;
+    }
+  }
+
+  .contact-link {
+    font-size: 0.68rem;
+    margin-top: 0.85rem;
+    color: #333333;
+    padding: 0;
+    text-align: left;
+  }
+}

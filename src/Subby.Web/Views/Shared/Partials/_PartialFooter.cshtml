@@ -1,0 +1,73 @@
+﻿@using System.IO
+
+<div id="modal-placeholder"></div>
+<div class="scroll-top"><i class="icon-arrow-up"></i></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.2/umd/popper.min.js"></script>
+<environment names="Development">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</environment>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"
+        integrity="sha256-F6h55Qw6sweK+t7SiOJX+2bpSAa3b/fnlrVCJvmEj1A="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.9/jquery.validate.unobtrusive.min.js"
+        integrity="sha256-paoxpct33kY9fpQlvgC8IokjGq8iqYaVFawgFPg8oz0="
+        crossorigin="anonymous"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="~/lib/stripe/elementsModal.js" asp-append-version="true"></script>
+<script>
+function initService() {
+        var input = $('.google-location');
+        
+        
+            var options = {
+                componentRestrictions: {'country': []}
+            };
+    
+            for(var i=0; i<input.length; i++){
+                new google.maps.places.Autocomplete(input[i], options);
+            }
+        
+    }
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2LbhHIYOz1EWe_ld3uBLhFMib6KkUtpk&libraries=places&callback=initService&language=en" async defer></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.plugins.min.js"></script>
+@{
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    var exists = File.Exists(Url.Content("wwwroot/app/" + controllerName + "/main.js"));
+}
+@if (exists && controllerName != "Admin")
+{
+    <script src="@Url.Content("/app/" + controllerName + "/main.js")" asp-append-version="true"></script>
+}
+
+    
+
+<script type="text/javascript">
+
+    var app = new Vue({
+        el: '#vueAppTemplate',
+        mixins: mixinArray,    //defined in global.js
+        data: {
+            appMessage: 'Sustainability Yard'
+            //add more data properties here
+        },
+        methods: {
+            //add methods here
+            click (e) {
+                var href = e.currentTarget.href;
+                history.pushState({}, null, href);
+            }
+        }
+    });
+
+</script>

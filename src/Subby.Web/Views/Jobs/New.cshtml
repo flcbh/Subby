@@ -1,0 +1,95 @@
+﻿@using Subby.Web.Models
+@model Subby.Core.Models.Job.NewJobViewModel
+@{
+    ViewData["Title"] = "Post a job";
+    var header = new Header
+    {
+        Title = "Post a job",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header" />
+<div class="container ">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="text-center">
+                        <h3>Post a job</h3>
+                        <p>Posting a new job with Sustainability Yard is simple. Enter your requirement details into the form, then our nearest subby contractors will be in touch.</p>
+                    </div>
+                    <form method="post" asp-controller="Jobs" asp-action="New" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label asp-for="Title" class="form-label"></label>
+                            <input asp-for="Title" class="form-control" placeholder="Job Title"/>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Budget" class="form-label"></label>
+                            <input asp-for="Budget" class="form-control" placeholder="e.g £9.04 - £11.16 an hour"/>
+                            <span asp-validation-for="Budget" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Location" class="form-label"></label>
+                            <input asp-for="Location" class="form-control google-location" placeholder="Town/City"/>
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Postcode" class="form-label"></label>
+                            <input asp-for="Postcode" required="required" class="form-control" placeholder="Postcode"/>
+                            <span asp-validation-for="Postcode" class="text-danger"></span>
+                        </div>
+                        <h6>Your working trade</h6>
+                        <div class="form-group">
+                            <label asp-for="TradeId" class="form-label"></label>
+                            @Html.DropDownList("TradeId", (IEnumerable<SelectListItem>)ViewData["Trades"], new { id = "TradeId", name="TradeId", @class = "form-control" })
+                            <span asp-validation-for="TradeId" class="text-danger"></span>
+                            <p class="text-muted hint">Select any trades or services offered by you or the services you are looking for.</p>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DeadLine" class="form-label"></label>
+                            <input asp-for="DeadLine" type="date" class="form-control" placeholder="dd-mm-yyyy"/>
+                            <span asp-validation-for="DeadLine" class="text-danger"></span>
+                            <p class="text-muted hint">Select the date you need this work to be complete by.</p>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ContractType" class="form-label"></label>
+                            @Html.DropDownList("ContractType", (IEnumerable<SelectListItem>) ViewData["ContractTypes"], new {id = "ContractType", name = "ContractType", @class = "form-control"})
+                            <span asp-validation-for="ContractType" class="text-danger"></span>
+                            <p class="text-muted hint"></p>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control editor" placeholder="Short job description" rows="5"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ExternalLink" class="form-label"></label>
+                            <input asp-for="ExternalLink" type="url" pattern="https?://.+" class="form-control" placeholder="https://www."/>
+                            <span asp-validation-for="ExternalLink" class="text-danger"></span>
+                            <p class="text-muted hint"></p>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Upload an image</label>
+                            <label class="file">
+                                <input type="file" name="File" id="file" class="file-upload-field" accept="image/png, image/jpeg" aria-label="File browser example">
+                                <span class="file-custom">Select an image</span>
+                            </label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2 text-center">
+                                <button type="submit" class="btn btn-primary btn-block mb-3">Submit Job</button>
+                                <p class="text-muted hint">By clicking submit job, you are agree to Sustainability Yard’s <a asp-controller="Policies" asp-action="Terms">Terms and Conditions</a>, <a asp-controller="Policies" asp-action="Terms">Privacy Notice</a> and <a asp-controller="Policies" asp-action="Terms">Cookie Policy</a>.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    
+}

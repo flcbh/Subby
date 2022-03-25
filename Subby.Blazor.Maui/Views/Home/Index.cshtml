@@ -1,0 +1,115 @@
+﻿@using Subby.Utilities.Extensions
+@using Subby.Blazor.Maui.Models.HomeViewModels
+@model HomeIndexViewModel
+@{
+    ViewData["Title"] = "Sustainability Yard";
+    Layout = "_LayoutWeb";
+}
+<section class="section pb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mt-5">
+                <h1 class="display-md-2">Sustainability Yard is built for
+                    <span class="rtx-bold d-block text-primary" data-typed-text="Painters, Home owners, Plumbers, Electricians, Builders, Gardeners, Housing associations, And more...">Painters</span>
+                </h1>
+                <p class="my-4">The app built for homeowners, tenants and landlords to find local tradesmen and for tradesmen to win local work.</p>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        <div class="text-center mt-2 border p-4 rounded">
+                            <h4>@string.Format("{0:n0}", Model.TotalJobs.RoundOff())+</h4>
+                            <p>We have over @string.Format("{0:n0}", Model.TotalJobs.RoundOff()) live jobs to quote for.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <div class="text-center mt-2 border p-4 rounded">
+                            <h4>@string.Format("{0:n0}", Model.TotalUsers.RoundOff())+</h4>
+                            <p>There are over @string.Format("{0:n0}", Model.TotalUsers.RoundOff()) tradesmen using the app.</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-muted my-4"><i>We are also a platform designed to help housing associations manage and maintain their portfolios whilst supporting their tenants.</i></p>
+                <div class="landing">
+                    <p class="app-link mt-4">
+                        <a href="https://play.google.com/store/apps/details?id=com.subbynetwork.app">
+                            <img alt="download" src="https://ik.imagekit.io/xbqs6c3wef/subby/google-store-button_C6Y3HDJNHx.png">
+                        </a>
+                        <a class="ml-4" href="https://apps.apple.com/gb/app/subby-network/id1403140756">
+                            <img alt="download" src="https://ik.imagekit.io/xbqs6c3wef/subby/ios-store-button_YaIAEyYCLE.png">
+                        </a>
+                    </p>
+                    <p>Available for both iOS and Android phones</p>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 text-center text-lg-right">
+                <img src="https://ik.imagekit.io/xbqs6c3wef/subby/subby-app_l4fZ-Pm7yfFL.png" alt="" data-aos="fade-left" class="aos-init aos-animate main-image">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section features">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <div class="feature-body">
+                    <img src="https://app.subbynetwork.com/images/icons/location.png"/>
+                    <h4>Unlimited Job Post and Quotes</h4>
+                    <p>Post a job for the trademan that you’re looking for or find a job for your skillset.</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="feature-body">
+                    <img src="https://app.subbynetwork.com/images/icons/connect-user.png"/>
+                    <h4>Connecting with Local Tradesmen</h4>
+                    <p>Connecting with local tradesmen has never been easier.</p>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="feature-body">
+                    <img src="https://app.subbynetwork.com/images/icons/happy.png"/>
+                    <h4>Share and Win Work</h4>
+                    <p>Get connected with each other and make work easier.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section grey">
+    <div class="container">
+        <div class="row align-items-center mt-lg-9">
+            <div class="col-lg-4 my-4 text-center text-lg-left">
+                <img src="https://ik.imagekit.io/xbqs6c3wef/subby/details-new_MCOmdKK25.png" alt="" data-aos="fade-right" class="aos-init aos-animate main-image">
+            </div>
+            <div class="col-lg-6 my-4 ml-auto">
+                <h2>A Better way to connect with
+                    <span class="rtx-bold d-block text-primary">Local Tradesmen</span>
+                </h2>
+                <p class="my-4">We keep things really simple.</p>
+                <ul class="list-unstyled font-weight-medium">
+                    <li class="mb-2">
+                        <i class="fa fa-check text-primary font-size-14 mr-2"></i> Find the right trades and manage the whole job using the app.</li>
+                    <li class="mb-2">
+                        <i class="fa fa-check text-primary font-size-14 mr-2"></i> Set up your profile in minutes.</li>
+                    <li class="mb-2">
+                        <i class="fa fa-check text-primary font-size-14 mr-2"></i> We don’t charge for leads. One payment gives unlimited access to everything.</li>
+                    <li class="mb-2">
+                        <i class="fa fa-check text-primary font-size-14 mr-2"></i> Unlimited free job posting, post as many of your jobs as you need to.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section footer-download">
+    <div class="container">
+        <h2>Download Sustainability Yard App Now!</h2>
+        <p class="app-link mt-4">
+            <a href="https://play.google.com/store/apps/details?id=com.subbynetwork.app">
+                <img alt="download" src="https://ik.imagekit.io/xbqs6c3wef/subby/google-store-button_C6Y3HDJNHx.png">
+            </a>
+            <a class="ml-4" href="https://apps.apple.com/gb/app/subby-network/id1403140756">
+                <img alt="download" src="https://ik.imagekit.io/xbqs6c3wef/subby/ios-store-button_YaIAEyYCLE.png">
+            </a>
+        </p>
+        <p class="text-center">Available for both iOS and Android phones</p>
+    </div>
+</section>

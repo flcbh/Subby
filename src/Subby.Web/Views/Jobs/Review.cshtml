@@ -1,0 +1,77 @@
+﻿@using Subby.Web.Models
+@model Subby.Web.Models.ReviewViewModels.WriteAReviewViewModel
+@{
+    ViewData["Title"] = "Write a review";
+    var header = new Header
+    {
+        Title = "Write a review",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <p>Write a review about your experience</p>
+            <form method="post" asp-controller="Jobs" asp-action="Review" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.JobId" value="@Model.JobId"/>
+                <input type="hidden" asp-for="@Model.UserId" value="@Model.UserId"/>
+                <div class="form-group">
+                    <label asp-for="Review" class="form-label"></label>
+                    <textarea asp-for="Review" class="form-control" placeholder="Write your experience" rows="5"></textarea>
+                    <span asp-validation-for="Review" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateCompleted" class="form-label"></label>
+                    <input asp-for="DateCompleted" type="date" class="form-control" placeholder="dd-mm-yyyy"/>
+                    <span asp-validation-for="DateCompleted" class="text-danger"></span>
+                </div>
+                <h6>Scores</h6>
+                 <div class="form-group">
+                    <label asp-for="Tidiness" class="form-label"></label>
+                     <select asp-for="Tidiness" type="select" class="form-control">
+                         <option value="1">Terrible</option>
+                         <option value="2">Poor</option>
+                         <option value="3">Acceptable</option>
+                         <option value="4">Good</option>
+                         <option value="5">Excellent</option>
+                     </select>
+                    <span asp-validation-for="Tidiness" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Courtesy" class="form-label"></label>
+                     <select asp-for="Courtesy" type="select" class="form-control">
+                         <option value="1">Terrible</option>
+                         <option value="2">Poor</option>
+                         <option value="3">Acceptable</option>
+                         <option value="4">Good</option>
+                         <option value="5">Excellent</option>
+                     </select>
+                    <span asp-validation-for="Courtesy" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Reliability" class="form-label"></label>
+                     <select asp-for="Reliability" type="select" class="form-control">
+                         <option value="1">Terrible</option>
+                         <option value="2">Poor</option>
+                         <option value="3">Acceptable</option>
+                         <option value="4">Good</option>
+                         <option value="5">Excellent</option>
+                     </select>
+                    <span asp-validation-for="Reliability" class="text-danger"></span>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <button type="submit" class="btn btn-primary btn-block mb-3">Submit Review</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    
+}

@@ -1,0 +1,9 @@
+
+    create table [Benefit] (
+        Id INT IDENTITY NOT NULL,
+       Title NVARCHAR(255) null,
+       Slug NVARCHAR(255) null,
+       [Image] NVARCHAR(255) null,
+       [Position] NVARCHAR(255) null,
+       primary key (Id)
+    )

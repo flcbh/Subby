@@ -1,0 +1,69 @@
+﻿@model LastContent.Utilities.Pagination.PagedResultBase
+@{
+    var urlTemplate = Url.Action() + "?page={0}";
+    var request = ViewContext.HttpContext.Request;
+    foreach (var key in request.Query.Keys)
+    {
+        if (key == "page")
+        {
+            continue;
+        }
+
+        urlTemplate += "&" + key + "=" + request.Query[key];
+    }
+
+    int maxPages = 5;
+    
+    int startPage, endPage;
+    if (Model.TotalPages <= maxPages) 
+    {
+        // total pages less than max so show all pages
+        startPage = 1;
+        endPage = Model.TotalPages;
+    }
+    else
+    {
+        // total pages more than max so calculate start and end pages
+        var maxPagesBeforeCurrentPage = (int) Math.Floor((decimal) maxPages / (decimal) 2);
+        var maxPagesAfterCurrentPage = (int) Math.Ceiling((decimal) maxPages / (decimal) 2) - 1;
+        if (Model.TotalPages <= maxPagesBeforeCurrentPage)
+        {
+            // current page near the start
+            startPage = 1;
+            endPage = maxPages;
+        }
+        else if (Model.TotalPages + maxPagesAfterCurrentPage >= Model.TotalPages )
+        {
+            // current page near the end
+            startPage = Model.TotalPages - Model.Page + 1;
+            endPage = Model.TotalPages ;
+        }
+        else
+        {
+            // current page somewhere in the middle
+            startPage = Model.Page - maxPagesBeforeCurrentPage;
+            endPage = Model.Page + maxPagesAfterCurrentPage;
+        }
+    }
+}
+@if (Model.TotalPages > 1)
+{
+    <ul class="pagination">
+        @if (Model.Page != 1)
+        {
+            <li class="page-item"><a class="page-link" href="@urlTemplate.Replace("{0}", "1")"> <span aria-hidden="true">&laquo;</span></a></li>
+        }
+
+        @for (var page = startPage; page <= endPage; page++)
+        {
+            <li class="page-item @(page == Model.Page ? "active" : "")">
+                <a href="@urlTemplate.Replace("{0}", page.ToString())" class="page-link">@(page)</a>
+            </li>
+        }
+        @if (Model.Page != Model.TotalPages)
+        {
+            <li class="page-item"><a class="page-link" href="@urlTemplate.Replace("{0}", Model.TotalPages.ToString())"><span aria-hidden="true">&raquo;</span></a></li>
+        }
+
+    </ul>
+}

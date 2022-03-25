@@ -1,0 +1,48 @@
+﻿@using NHibernate.Util
+@using Subby.Web.New.Models
+@using Subby.Web.New.ViewComponents
+@model LastContent.Utilities.Pagination.PagedResult<Subby.Core.Entities.Configuration>
+@{
+    ViewData["Title"] = "Configurations";
+    var header = new Header
+    {
+        Title = "Configurations",
+        DisplayReturn = true,
+        Url = @Url.Action("Index", "Admin")
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="admin mt-3">
+    <div class="container-fluid">
+        <h5>Configurations</h5>
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="clearfix"></div>
+                <div class="table">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="table_row">
+                            <div class="table_small">
+                                <div class="table_cell">Name</div>
+                                <div class="table_cell">@item.Description</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Value</div>
+                                <div class="table_cell">@item.Value</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell"></div>
+                                <div class="table_cell">
+                                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="mt-2 mb-2">
+                        @(await Component.InvokeAsync<PagerViewComponent>(Model))
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

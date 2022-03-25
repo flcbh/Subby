@@ -1,0 +1,61 @@
+﻿@using System.IO
+@using LastContent.Utilities.Notification
+@inject INotificationService NotificationService
+<!DOCTYPE html>
+<html class="perfect-scrollbar-off js-focus-visible" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"]</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+        <link href="~/css/site.css" rel="stylesheet"/>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    </environment>
+    <partial name="Partials/_PartialGa"/>
+    @RenderSection("Head", required: false)
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M2R2PDW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="wrapper" id="vueAppTemplate">
+    
+    <div class="main-content">
+        @if (NotificationService.Exists())
+        {
+            var message = NotificationService.Read();
+            <div id="notification">
+                <partial name="Partials/_PartialNotification" model="@message"/>
+            </div>
+        }
+        @RenderBody()
+        
+    </div>
+    @{
+        var controllerName = this.ViewContext.RouteData.Values["controller"]?.ToString();
+
+        if (controllerName != null && !controllerName.ToLower().Contains("chats"))
+        {
+            <footer>
+
+            </footer>
+        }
+        
+    }
+
+</div>
+<partial name="Partials/_PartialFooter"/>
+<partial name="Partials/_PartialMenu"/>
+<partial name="Partials/_PartialPremium"/>
+<partial name="Partials/_PartialPayment" />
+
+<script src="https://cdn.tiny.cloud/1/uc5fwlfz9r2els654b41gq3y6b2tfywssypxf3gh2w8p4ft0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+@await RenderSectionAsync("scripts", required: false).ConfigureAwait(false)
+</body>
+</html>

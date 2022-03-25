@@ -1,0 +1,123 @@
+html * {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-weight: 400;
+  background-color: #fdfdfd;
+}
+
+
+// Sticky Footer
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.main-content {
+  flex-grow: 1;
+}
+
+a {
+  color: $primary;
+
+  &:hover {
+    color: $primary;
+  }
+}
+
+
+.copy-rights {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.section {
+  padding-top: 3rem;
+  position: relative;
+  
+  &.grey {
+    background-color: #F8F9FD;
+  }
+}
+
+.footer-download {
+  text-align: center;
+  h2 {
+    font-weight: 600;
+  }
+}
+
+.app-link {
+  img {
+    width: 165px;
+
+    @media only screen and (max-width: 767px) {
+      width: 140px;
+    }
+  }
+}
+
+.text-primary {
+  color: $primary !important;
+}
+
+.features {
+  margin-bottom: 4rem;
+  .feature-body {
+    
+    img {
+      max-width: 100px;
+      margin-bottom: 1rem;
+    }
+    h4 {
+      font-size: 1.2rem;
+    }
+    padding: 1rem;
+  }
+}
+
+.rtx-bold {
+  height: 48px;
+  display: block;
+}
+
+.site-logo-default {
+  width: 180px;
+}
+
+.landing {
+  @media only screen and (max-width: 767px) {
+    text-align: center;
+  }
+}
+
+.display-md-2 {
+  font-size: 2.2rem;
+}
+
+.main-image {
+  height: 685px;
+
+  @media only screen and (max-width: 767px) {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.landing-feature {
+  text-align: center;
+  
+  h1 {
+    font-size: 1.25rem;
+  }
+  
+  p {
+    font-size: 0.95rem;
+  }
+}

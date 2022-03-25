@@ -1,0 +1,85 @@
+﻿@using NHibernate.Util
+@using Subby.Blazor.Maui.Models
+@using Subby.Blazor.Maui.ViewComponents
+@model LastContent.Utilities.Pagination.PagedResult<Subby.Core.Entities.User>
+@{
+    ViewData["Title"] = "Users";
+    var header = new Header
+    {
+        Title = "Users",
+        DisplayReturn = true,
+        Url = Url.Action("Index", "Admin")
+    };
+    string acceptPush = Context.Request.Query["acceptPush"].ToString();
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="admin mt-3">
+    <div class="container-fluid">
+        <h5>Users</h5>
+        <div class="btn-group d-flex job-filters mb-2" role="group" aria-label="Basic example">
+            <a asp-controller="Users" asp-action="Index" class="btn btn-outline-secondary @(acceptPush == "" ? "active" : "")" asp-route-filters="">View All</a>
+            <a asp-controller="Users" asp-action="Index" asp-route-acceptPush="true" class="btn btn-outline-secondary @(acceptPush != "" ? "active" : "")" asp-route-filters="">Push Enabled</a>
+            <button type="button" class="btn btn-outline-secondary" data-toggle="ajax-modal" data-target="#push-notification" data-url="@Url.Action("Push", new { id = 1})">Message All</button>
+        </div>
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="clearfix"></div>
+                <div class="table">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="table_row">
+                            <div class="table_small">
+                                <div class="table_cell">Name</div>
+                                <div class="table_cell">@item.FirstName @item.LastName</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Email</div>
+                                <div class="table_cell">@item.Email</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Phone</div>
+                                <div class="table_cell">@item.PhoneNumber</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Premium</div>
+                                <div class="table_cell">@(!item.IsPremium ? Html.Raw("-") : Html.Raw("<span class='badge text-success'>Yes</span>"))</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Trademen</div>
+                                <div class="table_cell">@(item.IsTrader ? "Yes" : "No")</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Role</div>
+                                <div class="table_cell">@item.Role</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Last Active</div>
+                                <div class="table_cell">@(item.LastActive.HasValue ? item.LastActive.Value.ToString("ddd, dd MMM yy hh:mmtt") : "-")</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell"></div>
+                                <div class="table_cell">
+                                    <div class="btn-group d-flex" role="group" aria-label="Basic example">
+                                        <a asp-controller="Users" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm">
+                                            Edit
+                                        </a>
+                                        @if (!string.IsNullOrEmpty(item.PushToken))
+                                        {
+                                            <button data-toggle="ajax-modal" data-target="#push-notification" data-url="@Url.Action("Push", new { id = item.Id})" class="btn btn-outline-secondary btn-sm">
+                                                Message
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="mt-2 mb-2">
+                    @(await Component.InvokeAsync<PagerViewComponent>(Model))
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="Partials/_PartialPush"/>

@@ -1,0 +1,50 @@
+﻿@using NHibernate.Util
+@using Subby.Web.New.Models
+@using Subby.Web.New.ViewComponents
+@model LastContent.Utilities.Pagination.PagedResult<Subby.Core.Entities.Subscription>
+@{
+    ViewData["Title"] = "Subscriptions";
+    var header = new Header
+    {
+        Title = "Subscriptions",
+        DisplayReturn = true,
+        Url = @Url.Action("Index", "Admin")
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="admin mt-3">
+    <div class="container-fluid">
+        <h5>Subscriptions</h5>
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="clearfix"></div>
+                <div class="table">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="table_row">
+                            <div class="table_small">
+                                <div class="table_cell">Created</div>
+                                <div class="table_cell">@item.CreatedAt.ToString("ddd, dd MMM yy hh:mmtt")</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Customer</div>
+                                <div class="table_cell">@item.User.FirstName @item.User.LastName</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Value</div>
+                                <div class="table_cell">£@(Math.Round(item.Amount, 2, MidpointRounding.AwayFromZero))</div>
+                            </div>
+                            <div class="table_small">
+                                <div class="table_cell">Expiry Date</div>
+                                <div class="table_cell">@item.ExpiryDate.ToString("ddd, dd MMM yy hh:mmtt")</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="mt-2 mb-2">
+                        @(await Component.InvokeAsync<PagerViewComponent>(Model))
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,123 @@
+.search-box {
+  position: relative;
+  margin: 1rem 0;
+
+  .glyphicon {
+    //position: absolute;
+    //padding: 10px;
+    //pointer-events: none;
+    //right: -20px;
+    //top: 0px;
+    
+    &:before {
+      color: white;
+      transition: all 0.2s linear;
+      display: block;
+      content: "";
+      background-image: url("data:image/svg+xml,<svg width='1em' height='1em' viewBox='0 0 16 16' class='bi bi-search' fill='currentColor' xmlns='http://www.w3.org/2000/svg'> <path fill-rule='evenodd' d='M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z'/> <path fill-rule='evenodd' d='M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z'/> </svg>");
+      background-repeat: no-repeat;
+      background-size: 1rem 1rem;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  input {
+    //color: #ffffff;
+    padding-left: 20px;
+    outline: none !important;
+    transition: all 0.2s linear;
+    border: 1px solid $primary;
+
+    &:focus {
+      background: #ffffff !important;
+      border: 1px solid $primary;
+      outline: 0;
+      color: #333;
+      box-shadow: none;
+    }
+
+    &:hover {
+      background: #ffffff;
+    }
+  }
+
+  input:focus + .glyphicon:before {
+    color: #333;
+  }
+  
+  .btn {
+    border-color: $primary;
+    background-color: $primary;
+    
+    &:hover {
+      background-color: $primary;
+      color: #ffffff;
+    }
+  }
+}
+
+.suggestions {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 2;
+  
+  /*perspective:20px;*/
+}
+
+.easy-autocomplete-container {
+  position: absolute;
+  width: 100%;
+  z-index: 3;
+  
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.suggestions li, .easy-autocomplete-container li {
+  list-style: none;
+  
+  &.list-label, a {
+    background: white;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    margin: 0;
+    padding: 20px;
+    transition: background 0.2s;
+    display: flex;
+    justify-content: space-between;
+    text-transform: capitalize;
+    text-decoration: none;
+    color: #333333;
+    
+    &:hover {
+      color: $primary;
+    }
+    
+    .location {
+      font-size: 0.85rem;
+    }
+  }
+  
+}
+
+.header-search {
+  background: #fff;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -ms-flex-align: center;
+  align-items: center;
+  border-radius: 3px;
+  
+  
+  .form-control {
+    border: 0;
+  }
+}
