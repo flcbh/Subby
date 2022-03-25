@@ -1,19 +1,7 @@
-using System;
-using System.IO;
-using System.Reflection;
-using FluentNHibernate.Automapping;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using FluentNHibernate.Conventions;
-using FluentNHibernate.Conventions.Helpers;
-using FluentNHibernate.Conventions.Instances;
 using Microsoft.Extensions.DependencyInjection;
-using NHibernate;
-using NHibernate.Cfg;
-using NHibernate.Tool.hbm2ddl;
 using Subby.Utilities.Data;
 using Subby.Utilities.Interfaces;
-using Environment = System.Environment;
+using System.Reflection;
 
 namespace Subby.Infrastructure.Data
 {

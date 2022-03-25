@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subby", "Subby\Subby.csproj", "{5F338EA8-C2AA-430F-9E92-94F8FC0DA074}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subby.Core", "src\Subby.Core\Subby.Core.csproj", "{F07CAB05-E163-4464-9B6B-06DC4B0E68D3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Subby.Infrastructure", "src\Subby.Infrastructure\Subby.Infrastructure.csproj", "{002F3207-C315-4C38-B590-882325DD243C}"
@@ -21,6 +23,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F338EA8-C2AA-430F-9E92-94F8FC0DA074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F338EA8-C2AA-430F-9E92-94F8FC0DA074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F338EA8-C2AA-430F-9E92-94F8FC0DA074}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5F338EA8-C2AA-430F-9E92-94F8FC0DA074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F338EA8-C2AA-430F-9E92-94F8FC0DA074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F338EA8-C2AA-430F-9E92-94F8FC0DA074}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{F07CAB05-E163-4464-9B6B-06DC4B0E68D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F07CAB05-E163-4464-9B6B-06DC4B0E68D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F07CAB05-E163-4464-9B6B-06DC4B0E68D3}.Release|Any CPU.ActiveCfg = Release|Any CPU

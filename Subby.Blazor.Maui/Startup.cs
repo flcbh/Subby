@@ -1,101 +1,91 @@
 ﻿using Autofac;
+using Subby.Infrastructure;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.Text;
 using FluentValidation.AspNetCore;
+using Subby.Infrastructure.Middlewares;
+using Subby.Utilities.Authentication;
+using Subby.Utilities.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
+using Subby.Core.Entities;
+using Subby.Core.Mappings;
+using Subby.Infrastructure.Data;
 using LastContent.Middleware.Logging;
 using LastContent.ServiceBus.Core;
 using LastContent.Utilities.Caching;
 using LastContent.Utilities.Email;
 using LastContent.Utilities.Notification;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components.WebView.Maui;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Serialization;
-using Subby.Blazor.Maui.Controllers;
-using Subby.Blazor.Maui.Data;
-using Subby.Blazor.Maui.Extensions;
-using Subby.Core.Entities;
 using Subby.Core.Interfaces;
-using Subby.Core.Mappings;
 using Subby.Core.Services;
-using Subby.Infrastructure;
-using Subby.Infrastructure.Data;
 using Subby.Infrastructure.Factory;
-using Subby.Infrastructure.Middlewares;
 using Subby.Infrastructure.UserStores;
-using Subby.Utilities.Authentication;
 using Subby.Utilities.Interfaces;
-using Subby.Utilities.Middleware;
-using System.Reflection;
-using System.Text;
+using Subby.Blazor.Maui.Extensions;
+using Microsoft.Maui.Hosting;
+using Microsoft.Maui.Controls.Hosting;
 
 
 namespace Subby.Blazor.Maui
 {
-    public static class MauiProgram
+    public class Startup : IStartup
     {
-        private static IConfiguration configuration;
-        private static readonly IWebHostEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
-        public static IConfiguration Configuration { get => configuration; set => configuration = value; }
-
-        public static MauiApp CreateMauiApp()
+        public Startup(IConfiguration config, IWebHostEnvironment env)
         {
-            Configuration = new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.json")
-                            .Build();
+            Configuration = config;
+            _env = env;
+        }
 
-            var builder = MauiApp.CreateBuilder();
-            
-            builder
-                .RegisterBlazorMauiWebView()
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                });
+        public IConfiguration Configuration { get; }
 
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddNHibernate(
+                Configuration.GetConnectionString("SQLConnection"),
+                Assembly.GetAssembly(typeof(Session)),
+                Assembly.GetAssembly(typeof(SessionMappingOverride)));
 
-            builder.Services.AddBlazorWebView();
-            builder.Services.AddSingleton<WeatherForecastService>();
-
-            builder.Services.AddNHibernate(
-               Configuration.GetConnectionString("SQLConnection"),
-               Assembly.GetAssembly(typeof(Session)),
-               Assembly.GetAssembly(typeof(SessionMappingOverride)));
-
-            builder.Services.AddDistributedRedisCache(options =>
+            services.AddDistributedRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("RedisCache");
             });
 
-            builder.Services.AddHealthChecks();
-            builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddHealthChecks();
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
-            var viewBuilder = builder.Services.AddControllersWithViews(options => { })
+            var viewBuilder = services.AddControllersWithViews(options => { })
                 .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                }
-                ).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AccountController>())
+                    {
+                        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    }
+                ).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
                 .AddSessionStateTempDataProvider();
 
-            builder.Services.AddRazorPages();
-            builder.Services.AddRouting(options => options.LowercaseUrls = true);
-            builder.Services.AddSwaggerGen(c =>
+#if DEBUG
+            viewBuilder.AddRazorRuntimeCompilation();
+#endif
+
+            services.AddRazorPages();
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 c.EnableAnnotations();
             });
 
-            builder.Services.AddRouting(options => options.LowercaseUrls = true);
-            builder.Services.AddCors(options =>
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
                     builder =>
@@ -105,32 +95,29 @@ namespace Subby.Blazor.Maui
                             .AllowAnyMethod();
                     });
             });
-            builder.Services.AddSession(options =>
+            services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-            ConfigureAuthentication(builder.Services);
-            builder.Services.AddHttpContextAccessor();
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.AddSession();
-            builder.Services.AddAutoMapper(typeof(AccountController));
-            builder.Services.Configure<SmtpConfig>(Configuration.GetSection(nameof(SmtpConfig)));
-            builder.Services.AddScoped<ISendInBlue, SendInBlue>();
-            builder.Services.AddScoped<IPushNotification, PushNotification>();
-            builder.Services.AddScoped<IAppCache, AppCache>();
-            builder.Services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
-            builder.Services.AddScoped<ICache, RedisCache>();
-            builder.Services.AddScoped<IFileUpload, FileUpload>();
-            builder.Services.AddScoped<INotificationService, NotificationService>();
-            builder.Services.AddServiceBus(Configuration, Configuration.GetConnectionString("SchedulerConnection"));
-
-
-            return builder.Build();
+            ConfigureAuthentication(services);
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSession();
+            services.AddAutoMapper(typeof(Startup));
+            services.Configure<SmtpConfig>(Configuration.GetSection(nameof(SmtpConfig)));
+            services.AddScoped<ISendInBlue, SendInBlue>();
+            services.AddScoped<IPushNotification, PushNotification>();
+            services.AddScoped<IAppCache, AppCache>();
+            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
+            services.AddScoped<ICache, RedisCache>();
+            services.AddScoped<IFileUpload, FileUpload>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddServiceBus(Configuration, Configuration.GetConnectionString("SchedulerConnection"));
         }
 
-        private static void ConfigureAuthentication(IServiceCollection services)
+        private void ConfigureAuthentication(IServiceCollection services)
         {
             services.AddIdentity<User, Role>().AddDefaultTokenProviders();
             services.AddSingleton<IUserStore<User>, UserStore>();
@@ -167,7 +154,7 @@ namespace Subby.Blazor.Maui
                 options.Cookie.Name = "App.Identity";
             });
 
-            //Enable Dual Authentication
+            // Enable Dual Authentication 
             var jwtIssuerOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             services.Configure<JwtIssuerOptions>(jwtIssuerOptions);
             var appSettings = jwtIssuerOptions.Get<JwtIssuerOptions>();
@@ -208,13 +195,13 @@ namespace Subby.Blazor.Maui
 
         }
 
-        public static void ConfigureContainer(ContainerBuilder builder)
+        public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterModule(new DefaultInfrastructureModule(_env.EnvironmentName == "Development"));
         }
 
 
-        public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.EnvironmentName == "Development")
             {
@@ -251,5 +238,42 @@ namespace Subby.Blazor.Maui
             });
         }
 
+        IServiceProvider IStartup.ConfigureServices(IServiceCollection services)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Configure(IApplicationBuilder appBuilder)
+        {
+            //appBuilder
+            //    .RegisterBlazorMauiWebView()
+            //    .UseMicrosoftExtensionsServiceProviderFactory()
+            //    .UseMauiApp<App>()
+            //    .ConfigureFonts(fonts =>
+            //    {
+            //        fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+            //    })
+            //    .ConfigureServices(services =>
+            //    {
+            //        services.AddBlazorWebView();
+            //        services.AddSingleton<WeatherForecastService>();
+            //    });
+        }
+        //public void Configure(IAppHostBuilder appBuilder)
+        //{
+        //    appBuilder
+        //        .RegisterBlazorMauiWebView()
+        //        .UseMicrosoftExtensionsServiceProviderFactory()
+        //        .UseMauiApp<App>()
+        //        .ConfigureFonts(fonts =>
+        //        {
+        //            fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+        //        })
+        //        .ConfigureServices(services =>
+        //        {
+        //            services.AddBlazorWebView();
+        //            services.AddSingleton<WeatherForecastService>();
+        //        });
+        //}
     }
 }

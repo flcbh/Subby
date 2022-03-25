@@ -235,7 +235,7 @@ namespace Subby.Web.New
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseShowAllServicesMiddleware();
+                //app.UseShowAllServicesMiddleware();
             }
             else
             {
