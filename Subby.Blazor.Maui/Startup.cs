@@ -1,17 +1,12 @@
-﻿using System;
-using Ardalis.ListStartupServices;
-using Autofac;
+﻿using Autofac;
 using Subby.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using Subby.Infrastructure.Middlewares;
 using Subby.Utilities.Authentication;
@@ -34,12 +29,14 @@ using Subby.Core.Services;
 using Subby.Infrastructure.Factory;
 using Subby.Infrastructure.UserStores;
 using Subby.Utilities.Interfaces;
-using Microsoft.AspNetCore.Rewrite;
-using Subby.Web.New.Extensions;
+using Subby.Blazor.Maui.Extensions;
+using Microsoft.Maui.Hosting;
+using Microsoft.Maui.Controls.Hosting;
 
-namespace Subby.Web.New
+
+namespace Subby.Blazor.Maui
 {
-    public class Startup
+    public class Startup : IStartup
     {
         private readonly IWebHostEnvironment _env;
 
@@ -53,11 +50,6 @@ namespace Subby.Web.New
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.Configure<CookiePolicyOptions>(options =>
-            // {
-            //     options.CheckConsentNeeded = context => true;
-            //     options.MinimumSameSitePolicy = SameSiteMode.None;
-            // });
             services.AddNHibernate(
                 Configuration.GetConnectionString("SQLConnection"),
                 Assembly.GetAssembly(typeof(Session)),
@@ -90,15 +82,6 @@ namespace Subby.Web.New
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 c.EnableAnnotations();
-            });
-
-            // add list services for diagnostic purposes - see https://github.com/ardalis/AspNetCoreStartupServices
-            services.Configure<ServiceConfig>(config =>
-            {
-                config.Services = new List<ServiceDescriptor>(services);
-
-                // optional - default path to view services is /listallservices - recommended to choose your own path
-                config.Path = "/listservices";
             });
 
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -178,11 +161,6 @@ namespace Subby.Web.New
             var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
 
             services.AddAuthentication()
-                //.AddFacebook(facebookOptions =>
-                //{
-                //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                //})
                 .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = false;
@@ -210,12 +188,6 @@ namespace Subby.Web.New
                     };
                 });
 
-            // var keyFolder = Directory.GetCurrentDirectory() + "/data/key/";
-            // if (!Directory.Exists(keyFolder))
-            // {
-            //     Directory.CreateDirectory(keyFolder);
-            // }
-
             services.AddDataProtection()
                 // .PersistKeysToFileSystem(new DirectoryInfo(keyFolder))
                 .SetApplicationName("subbynetwork")
@@ -242,27 +214,6 @@ namespace Subby.Web.New
                 app.UseExceptionHandler("/error");
                 app.UseApiLoggingMiddleware();
                 app.UseHsts();
-
-
-                /*
-                app.UseRewriter(new RewriteOptions()
-                  .AddRedirectToNonWww()
-                  .AddRedirectToHttps()
-               );
-                app.Use(async (context, next) =>
-                {
-                    var url = context.Request.Host.Value;
-
-                    // Redirect to an external URL
-                    if (url.Contains("subbynetwork"))
-                    {
-                        url = url.Replace("subbynetwork", "sustainabilityyard");
-                        context.Response.Redirect(url);
-                        return;   // short circuit
-                    }
-
-                    await next();
-                });*/
             }
 
             app.UseLoggingMiddleware();
@@ -271,7 +222,6 @@ namespace Subby.Web.New
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            // app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
@@ -287,5 +237,43 @@ namespace Subby.Web.New
                 endpoints.MapRazorPages();
             });
         }
+
+        IServiceProvider IStartup.ConfigureServices(IServiceCollection services)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Configure(IApplicationBuilder appBuilder)
+        {
+            //appBuilder
+            //    .RegisterBlazorMauiWebView()
+            //    .UseMicrosoftExtensionsServiceProviderFactory()
+            //    .UseMauiApp<App>()
+            //    .ConfigureFonts(fonts =>
+            //    {
+            //        fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+            //    })
+            //    .ConfigureServices(services =>
+            //    {
+            //        services.AddBlazorWebView();
+            //        services.AddSingleton<WeatherForecastService>();
+            //    });
+        }
+        //public void Configure(IAppHostBuilder appBuilder)
+        //{
+        //    appBuilder
+        //        .RegisterBlazorMauiWebView()
+        //        .UseMicrosoftExtensionsServiceProviderFactory()
+        //        .UseMauiApp<App>()
+        //        .ConfigureFonts(fonts =>
+        //        {
+        //            fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+        //        })
+        //        .ConfigureServices(services =>
+        //        {
+        //            services.AddBlazorWebView();
+        //            services.AddSingleton<WeatherForecastService>();
+        //        });
+        //}
     }
 }
