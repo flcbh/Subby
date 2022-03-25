@@ -1,0 +1,5 @@
+
+    alter table [JobApplication] 
+        add Quote NVARCHAR(255)
+    alter table [JobApplication] 
+        add Estimation NVARCHAR(255)

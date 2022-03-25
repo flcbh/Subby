@@ -1,0 +1,3 @@
+
+    alter table [Configuration] 
+        add Description NVARCHAR(255)

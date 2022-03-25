@@ -1,0 +1,19 @@
+﻿@using LastContent.Utilities.Extensions
+@using Subby.Utilities.Extensions
+@using Subby.Web.New.Models
+@{
+    ViewData["Title"] = "Internal Error";
+    var header = new Header
+    {
+        Title = "Internal Error",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="container">
+    <div class="centered-div text-center">
+        <h1 class="subtitle mt-4">Uh... Error 500!</h1>
+        <p>Something went wrong at our end. Don't worry it's not you - it's us. Sorry about that.</p>
+        <a asp-controller="Jobs" asp-action="Index" class="btn btn-primary btn-block mb-3">Go to the Home Page</a>
+    </div>
+</div>

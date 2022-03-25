@@ -1,0 +1,7 @@
+
+    alter table [JobApplication] 
+        add Applicant_id INT
+    alter table [JobApplication] 
+        add constraint FK_96083898 
+        foreign key (Applicant_id) 
+        references [User]

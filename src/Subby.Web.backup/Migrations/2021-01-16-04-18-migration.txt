@@ -1,0 +1,26 @@
+
+    create table [UserReview] (
+        Id INT IDENTITY NOT NULL,
+       Review NVARCHAR(255) null,
+       DateCompleted DATETIME2 null,
+       DateCreated DATETIME2 null,
+       Tidiness INT null,
+       Reliability INT null,
+       Courtesy INT null,
+       User_id INT null,
+       Job_id INT null,
+       Reviewer_id INT null,
+       primary key (Id)
+    )
+    alter table [UserReview] 
+        add constraint FK_70650A8E 
+        foreign key (User_id) 
+        references [User]
+    alter table [UserReview] 
+        add constraint FK_B9591073 
+        foreign key (Job_id) 
+        references [Job]
+    alter table [UserReview] 
+        add constraint FK_5E886501 
+        foreign key (Reviewer_id) 
+        references [User]

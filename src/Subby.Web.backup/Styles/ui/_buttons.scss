@@ -1,0 +1,42 @@
+.btn-primary, .btn-green {
+  padding: 1rem 1.8rem;
+  font-size: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  -webkit-transition: 0.3s ease;
+  transition: 0.3s ease;
+  cursor: pointer;
+  font-weight: 400;
+  line-height: 1.2rem;
+  background-color: $primary;
+  border-color: $primary;
+  
+  &.btn-sm {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.65rem;
+  }
+  
+  &:hover, &:active, &:focus{
+    color: #fff;
+    background-color: darken($primary, 10%) !important;
+    border-color: darken($primary, 10%) !important;
+    box-shadow: none !important;
+  }
+  
+}
+
+.btn-green {
+  background: $secondary;
+  border-color: $secondary;
+  color: #ffffff;
+
+  &:hover, &:active, &:focus {
+    background-color: darken($secondary, 5%) !important;
+    border-color: darken($secondary, 5%) !important;
+  } 
+}
+
+.delete-button {
+  position: absolute;
+  right: 1rem;
+}

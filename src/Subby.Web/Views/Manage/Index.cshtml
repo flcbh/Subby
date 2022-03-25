@@ -1,0 +1,222 @@
+﻿@using Subby.Web.Models
+@model Subby.Web.Models.ManageViewModels.IndexViewModel
+@{
+    ViewData["Title"] = "Profile";
+    var header = new Header
+    {
+        Title = "Profile",
+        DisplayReturn = true,
+        Url = @Url.Action("Index", "Jobs")
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <p>Hi @Model.Firstname, please use the form fields below to update and manage your profile</p>
+            @if (!string.IsNullOrEmpty(Model.StatusMessage))
+            {
+                var statusMessageClass = Model.StatusMessage.StartsWith("Error") ? "danger" : "success";
+                <div class="alert alert-@statusMessageClass alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    @Model.StatusMessage
+                </div>
+            }
+            <form method="post" asp-controller="Manage" asp-action="Index" enctype="multipart/form-data">
+                <input asp-for="Latitude" type="hidden" class="form-control" placeholder=""/>
+                <input asp-for="Longitude" type="hidden" class="form-control" placeholder=""/>
+                <div class="form-group">
+                    <label asp-for="Firstname" class="form-label"></label>
+                    <input asp-for="Firstname" class="form-control" placeholder=""/>
+                    <span asp-validation-for="Firstname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lastname" class="form-label"></label>
+                    <input asp-for="Lastname" class="form-control" placeholder=""/>
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="form-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control"/>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label"></label>
+                    @if (Model.IsEmailConfirmed)
+                    {
+                        <div class="input-group mb-3">
+                            <input asp-for="Email" class="form-control"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-check2" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <input asp-for="Email" class="form-control"/>
+                        <button asp-action="SendVerificationEmail" class="btn btn-link mt-2 p-0">Send verification email</button>
+                    }
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group check-toggle-wrap">
+                    <div class="row">
+                        <div class="col-10">
+                            <label for="isTrader">Show me both Private & Site Jobs</label>
+                        </div>
+                        <div class="col-2">
+                            <div class="check-toggle float-right">
+                                <label class="switch small" for="ShowExternalJobs">
+                                    <input type="checkbox" id="ShowExternalJobs" name="ShowExternalJobs" asp-for="ShowExternalJobs"/>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group check-toggle-wrap">
+                    <div class="row">
+                        <div class="col-10">
+                            <label for="isTrader">I am a Tradesman?</label>
+                        </div>
+                        <div class="col-2">
+                            <div class="check-toggle float-right">
+                                <label class="switch small" for="isTrader">
+                                    <input type="checkbox" id="isTrader" name="IsTrader" asp-for="IsTrader"/>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trader-options">
+                    <h6>Your Trade Details:</h6>
+                    <div class="form-group">
+                        <label asp-for="Trades" class="form-label"></label>
+                        @Html.DropDownList("Trades", (IEnumerable<SelectListItem>) ViewData["Trades"], new {id = "TradeId", name = "Trades", @class = "form-control", multiple = "multiple"})
+                        <span asp-validation-for="Trades" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TradeName" class="form-label"></label>
+                        <input asp-for="TradeName" class="form-control" required/>
+                        <span asp-validation-for="TradeName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TradeAddressLine1" class="form-label"></label>
+                        <input asp-for="TradeAddressLine1" class="form-control"/>
+                        <span asp-validation-for="TradeAddressLine1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TradeCity" class="form-label"></label>
+                        <input asp-for="TradeCity" class="form-control" required/>
+                        <span asp-validation-for="TradeCity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TradePostcode" class="form-label"></label>
+                        <input asp-for="TradePostcode" class="form-control" required/>
+                        <span asp-validation-for="TradePostcode" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TradeDistance" class="form-label"></label>
+                        <input asp-for="TradeDistance" class="form-control" required/>
+                        <span asp-validation-for="TradeDistance" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group check-toggle-wrap">
+                    <div class="row">
+                        <div class="col-10">
+                            <label for="MarketingOptIn">I'd like Sustainability Yard to send me offers, discounts and new service information</label>
+                        </div>
+                        <div class="col-2">
+                            <div class="check-toggle float-right">
+                                <label class="switch small" for="MarketingOptIn">
+                                    <input type="checkbox" id="MarketingOptIn" asp-for="MarketingOptIn"/>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-9">
+                        <div class="form-group">
+                            <label class="file">
+                                <input type="file" name="File" id="file" class="file-upload-field" aria-label="File browser example">
+                                <span class="file-custom">Profile Picture</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        @if (!string.IsNullOrEmpty(Model.Avatar))
+                        {
+                            if (Model.Avatar.Contains("http"))
+                            {
+                                <img src="@Model.Avatar" class="avatar mb-3 float-right" alt="profile"/>
+                            }
+                            else
+                            {
+                                <img src="~/avatars/@Model.Avatar" class="avatar mb-3 float-right" alt="profile"/>
+                            }
+                        }
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 text-center">
+                        <button type="submit" class="btn btn-primary btn-block mb-3">Save Changes</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+    $(document).ready(function() {
+        var isTrader = $('#isTrader').prop("checked");
+        if (isTrader) {
+            $('.trader-options').fadeIn();
+        } else {
+            $('.trader-options').fadeOut();
+        }
+        
+        $('#isTrader').change(function () {
+            if ($(this).prop("checked")) {
+                // checked
+                $('.trader-options').fadeIn();
+            } else {
+                $('.trader-options').fadeOut();
+            }
+        });
+     
+    });
+    // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            
+            $('#Latitude').val(pos.lat);
+            $('#Longitude').val(pos.lng);
+
+            console.log(pos);
+          }, function() {
+            
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          
+        }
+
+    </script>
+}

@@ -1,0 +1,9 @@
+
+    alter table [JobApplication] 
+        add Firstname NVARCHAR(255)
+    alter table [JobApplication] 
+        add Lastname NVARCHAR(255)
+    alter table [JobApplication] 
+        add Phone NVARCHAR(255)
+    alter table [JobApplication] 
+        add Email NVARCHAR(255)

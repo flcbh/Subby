@@ -1,0 +1,3 @@
+
+    alter table [User] 
+        add [Role] NVARCHAR(255)

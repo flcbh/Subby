@@ -1,0 +1,7 @@
+
+    create table [Role] (
+        Id INT IDENTITY NOT NULL,
+       Name NVARCHAR(255) null,
+       NormalizedName NVARCHAR(255) null,
+       primary key (Id)
+    )

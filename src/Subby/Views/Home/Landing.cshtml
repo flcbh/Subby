@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewData["Title"] = "Sustainability Yard";
+    Layout = "_LayoutWeb";
+}
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-7">
+                <div class="greetings">
+                     <img src="~/images/icons/logo.png" alt="SubbyNetwork" class="logo"/>
+                     <div class="greeting-body small">
+                         <p>Welcome to</p>
+                         <h2>Sustainability Yard</h2>
+                     </div>
+                 </div>
+            </div>
+            <div class="col-5 ml-auto text-right">
+               
+            </div>
+        </div>
+    </div>
+</div>
+<section class="section landing-feature">
+    <div class="container">
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h1>Welcome to Sustainability Yard</h1>
+                <p>Where you can find local work, local tradesmen & new and used building supplies all under one roof.</p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <a asp-controller="Adverts" asp-action="Index" class="text-dark">
+                        <img class="card-img-top" src="~/images/wood.jpg" alt="Card image cap">
+                        <p class="mt-2">Buy/Sell Materials</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card mb-4">
+                    <a asp-controller="Jobs" asp-action="Index" class="text-dark">
+                        <img class="card-img-top" src="~/images/tool.jpg" alt="Card image cap">
+                        <p class="mt-2">Find Work</p>
+                    </a>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card mb-4">
+                    <a asp-controller="Jobs" asp-action="New" class="text-dark">
+                        <img class="card-img-top" src="~/images/building.jpg" alt="Card image cap">
+                        <p class="mt-2">Post a Job</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<partial name="Partials/_PartialBottomStackSupplies"/>

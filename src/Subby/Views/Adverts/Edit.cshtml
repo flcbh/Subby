@@ -1,0 +1,180 @@
+﻿@using Subby.Web.New.Models
+@model             Subby.Web.New.Models.AdvertViewModels.NewAdvertViewModel
+@{
+    ViewData["Title"] = "Edit an advert";
+    var header = new Header
+    {
+        Title = "Update advert",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="text-center">
+                        <p>Update "@Model.Title"</p>    
+                    </div>
+                    <form method="post" asp-controller="Adverts" asp-action="Edit" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="@Model.Id" value="@Model.Id"/>
+                        <div class="validation-summary-valid"></div>
+                        <div class="form-group">
+                            <label asp-for="Title" class="form-label">Item Name</label>
+                            <input asp-for="Title" class="form-control" placeholder="e.g Dove Grey Finish Vinyl Waterproof Plank Flooring"/>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group check-toggle-wrap">
+                            <div class="row">
+                                <div class="col-10">
+                                    <label for="IsFree">Free</label>
+                                </div>
+                                <div class="col-2">
+                                    <div class="check-toggle float-right">
+                                        <label class="switch small" for="IsFree">
+                                            <input type="checkbox" id="IsFree" name="IsFree" asp-for="IsFree"/>
+                                            <div class="slider round"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="price-div">
+                            <label asp-for="Price" class="form-label"></label>
+                            <input asp-for="Price" class="form-control" placeholder="e.g £9.04 - £11.16 "/>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Location" class="form-label"></label>
+                            <input asp-for="Location" class="form-control google-location" placeholder="Town/City"/>
+                            <span asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Postcode" class="form-label"></label>
+                            <input asp-for="Postcode" required="required" class="form-control" placeholder="Postcode"/>
+                            <span asp-validation-for="Postcode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CategoryId" class="form-label">Category</label>
+                            @Html.DropDownList("CategoryId", (IEnumerable<SelectListItem>) ViewData["Categories"], new {id = "CategoryId", name = "CategoryId", @class = "form-control"})
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Condition" class="form-label">Condition</label>
+                            <select asp-for="Condition" class="form-control">
+                                <option value="New">New</option>
+                                <option value="Used">Used</option>
+                            </select>
+                            <span asp-validation-for="Condition" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control editor" placeholder="Short description" rows="5"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ExternalLink" class="form-label">Website</label>
+                            <input asp-for="ExternalLink" type="url" pattern="https?://.+" class="form-control" placeholder="https://www."/>
+                            <span asp-validation-for="ExternalLink" class="text-danger"></span>
+                            <p class="text-muted hint"></p>
+                        </div>
+                        @if (Model.MediaCollection.Any())
+                        {
+                            <p><small>Current Images</small></p>
+                            <div class="row">
+                                @foreach (var item in Model.MediaCollection)
+                                {
+                                    <div class="col-6">
+                                        <img src="@item.Src" class="mb-3 rounded img-fluid img-thumbnail" alt="profile"/>
+                                        <button type="button" class="btn btn-sm btn-danger delete-button" onclick="DeleteImage(@item.Id)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="form-label">Upload an image</label>
+                            <label class="file">
+                                <input type="file" name="Files" id="file" multiple class="file-upload-field" accept="image/png, image/jpeg" aria-label="File browser example">
+                                <span class="file-custom">Select an image</span>
+                            </label>
+                        </div>
+                        <div class="form-group check-toggle-wrap">
+                            <div class="row">
+                                <div class="col-10">
+                                    <label for="IsSold">Mark as Sold</label>
+                                </div>
+                                <div class="col-2">
+                                    <div class="check-toggle float-right">
+                                        <label class="switch small" for="IsSold">
+                                            <input type="checkbox" id="IsSold" name="IsSold" asp-for="IsSold"/>
+                                            <div class="slider round"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 offset-md-2 text-center">
+                                <button type="submit" class="btn btn-primary btn-block mb-3">Submit</button>
+                                <p class="text-muted hint">By clicking submit job, you are agree to Sustainability Yard’s <a asp-controller="Policies" asp-action="Terms">Terms and Conditions</a>, <a asp-controller="Policies" asp-action="Terms">Privacy Notice</a> and <a asp-controller="Policies" asp-action="Terms">Cookie Policy</a>.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $( document ).ready(function() {
+            var isFree = '@Model.IsFree';
+            if(!isFree){
+                $("#price-div").show();
+            } else {
+                $("#price-div").hide();
+            }
+            
+             $("#IsFree").change(function() {
+                if($(this).prop('checked')) {
+                    $("#price-div").hide();
+                } else {
+                    $("#price-div").show();
+                }
+            });
+           
+        });
+        
+         function DeleteImage(id) {
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                url: '/api/images/delete/' + id,
+                data: JSON.stringify({
+                    id: id
+                }),
+                success: function (data) {
+                    window.location.reload();
+                },
+                failure: function (response) {
+    
+                },
+                error: function (response) {
+               
+                }
+            });
+        }
+        
+    </script>
+}

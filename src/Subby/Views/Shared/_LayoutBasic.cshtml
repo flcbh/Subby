@@ -1,0 +1,50 @@
+﻿@using System.IO
+<!DOCTYPE html>
+<html class="perfect-scrollbar-off js-focus-visible" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"]</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
+        <link href="~/css/site.css" rel="stylesheet"/>
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" asp-append-version="true"/>
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    </environment>
+    <partial name="Partials/_PartialGa"/>
+    @RenderSection("Head", required: false)
+</head>
+<body>
+<div class="wrapper background-screen" id="vueAppTemplate">
+    
+    <div class="main-content">
+      
+        @RenderBody()
+        
+    </div>
+    <footer>
+        @* <div class="container"> *@
+        @*     <ul class="policy-list"> *@
+        @*         <li> *@
+        @*             <a href="/policies/refund" title="Refund policy">Refund policy</a> *@
+        @*         </li> *@
+        @*         <li> *@
+        @*             <a href="/policies/privacy" title="Privacy policy">Privacy policy</a> *@
+        @*         </li> *@
+        @*         <li> *@
+        @*             <a href="/policies/terms-of-service" title="Terms of service">Terms of service</a> *@
+        @*         </li> *@
+        @*     </ul> *@
+        @*     <p class="copy-rights">&copy; @DateTime.Now.Year | SubbyNetwork | All Rights Reserved.</p> *@
+        @* </div> *@
+    </footer>
+</div>
+<partial name="Partials/_PartialFooter"/>
+<partial name="Partials/_PartialMenu"/>
+<script src="https://cdn.tiny.cloud/1/uc5fwlfz9r2els654b41gq3y6b2tfywssypxf3gh2w8p4ft0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+@await RenderSectionAsync("scripts", required: false).ConfigureAwait(false)
+</body>
+</html>

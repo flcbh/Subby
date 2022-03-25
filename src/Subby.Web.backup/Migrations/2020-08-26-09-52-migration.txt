@@ -1,0 +1,9 @@
+
+    alter table [User] 
+        add Latitude NVARCHAR(255)
+    alter table [User] 
+        add Longitude NVARCHAR(255)
+    alter table [User] 
+        add Avatar NVARCHAR(255)
+    alter table [User] 
+        add ShowExternalJobs BIT

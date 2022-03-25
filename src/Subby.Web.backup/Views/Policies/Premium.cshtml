@@ -1,0 +1,33 @@
+﻿@using Subby.Utilities.Extensions
+@using Subby.Web.Models
+@{
+    ViewData["Title"] = "Premium Member";
+    var header = new Header
+    {
+        Title = "Premium Member",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 text-center mt-2 mb-5">
+            <div class="box blue mb-2 mt-3 new-box">
+                <h5>Premium Membership</h5>
+                <h2 class="price-text">
+                    @await Component.InvokeAsync("PremiumPrice") <span>a Month or</span> @await Component.InvokeAsync("AnnualPrice") <span>for the year</span>
+                </h2>
+
+            </div>
+            <ul class="text-left clean-list mt-4">
+                <li>Unlimited job quotes with 0% commission.</li>
+                <li>Unlimited job posts when you need help on a job.</li>
+                <li>
+                    Premium member benefits - Access to exclusive discounts and offers to help you and your business.
+                </li>
+                <li>Coming soon - premium member will be part of a community to share knowledge and experiences.</li>
+            </ul>
+            <button type="submit" class="btn btn-green btn-block mb-5" data-toggle="modal" data-target="#payment-modal">Get Premium</button>
+        </div>
+    </div>
+</div>

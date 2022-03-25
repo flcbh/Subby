@@ -1,0 +1,205 @@
+.form-control {
+  -webkit-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  background-color: white;
+  color: #333333;
+  background-clip: padding-box;
+  display: block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  //padding: 1.262rem 0.785rem;
+  word-break: normal;
+  line-height: inherit;
+  font-size: 16px;
+  
+  &:focus {
+    outline: none;
+    -webkit-box-shadow: 0 0 0 1px #1990c6;
+    box-shadow: 0 0 0 1px #1990c6;
+    border: 0;
+  }
+}
+
+textarea {
+  resize: none;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  color: #595959;
+}
+
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select:focus,
+textarea {
+  font-size: 16px;
+}
+
+.check-toggle-wrap {
+  margin: 0.5rem 0;
+  label {
+    padding-top: 0;
+    font-size: 0.85rem;
+  }
+}
+
+.check-toggle {
+  .switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+    
+    &.small {
+      height: 24px;
+      width: 50px;
+
+      .slider:before {
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
+
+  .switch input {
+    display: none;
+  }
+
+  .slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+  }
+
+  .slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+  }
+
+  input:checked + .slider {
+    background-color: $primary;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  
+  &.transparent {
+    input:checked + .slider {
+      background-color: #333333;
+    }
+    
+  }
+}
+
+.CardField-number .CardField-number-fakeNumber, .CardField-number input {
+  transform: translateZ(0) !important;
+}
+
+
+
+.radio-button {
+  margin-bottom: 1rem;
+}
+
+.radio-button-label-wrapper {
+  border-radius: 50%;
+  cursor: pointer;
+  display: block;
+  padding-left: 2.5rem;
+  position: relative;
+  top: 0.25rem;
+
+  &:hover .radio-button__input ~ .radio-button__custom-indicator {
+    border-color: black;
+  }
+}
+
+.radio-button-label-title {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.radio-button-label-subtext {
+  display: block;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.radio-button-custom-indicator {
+  background-color: white;
+  border: 1px solid #999;
+  border-radius: 50%;
+  height: $radio-button-container-size;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: $radio-button-container-size;
+
+  &::after {
+    background-color: $primary;
+    border-radius: 50%;
+    content: "";
+    display: none;
+    height: $radio-button-fill-size;
+    left: 3px;
+    position: absolute;
+    top: 3px;
+    width: $radio-button-fill-size;
+  }
+}
+
+.radio-button-input {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+
+  &:focus ~ .radio-button-custom-indicator {
+    border-color: black;
+  }
+
+  &:checked ~ .radio-button-custom-indicator {
+    &::after {
+      display: block;
+    }
+  }
+
+  &:disabled ~ .radio-button-custom-indicator {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}

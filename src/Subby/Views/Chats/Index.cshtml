@@ -1,0 +1,118 @@
+﻿@using Subby.Utilities.Extensions
+@using Subby.Web.New.Models
+@using Subby.Web.New.ViewComponents
+@using LastContent.Utilities.Extensions
+@using System.Text.RegularExpressions
+@using Subby.Core.Entities
+@model IEnumerable<ChatChannel>
+@{
+    ViewData["Title"] = "Chats";
+}
+<div class="chat-panel">
+  <div class="contact bar">
+    <div class="container">
+      <div class="back-icon">
+        <a asp-action="Index" asp-controller="Adverts">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+          </svg>
+        </a>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="pt-3 mt-1">
+            Contacts
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contacts">
+    @if (!Model.Any())
+    {
+      <p class="text-center mb-0">No chats yet.</p>
+      <p class="text-center">Get started by viewing one of our <a asp-action="Index" asp-controller="Adverts">adverts</a></p>
+    }
+    @foreach (var item in Model)
+    {
+      var displayUser = item.MemberCollection.FirstOrDefault(x => x.User.Id != User.Identity.GetId())?.User;
+      
+      var chat = @item.ChatCollection.LastOrDefault();
+      <div class="contact">
+        <a asp-action="Channel" asp-controller="Chats" asp-route-id="@item.Id">
+          @if (displayUser != null && !string.IsNullOrEmpty(displayUser.Avatar))
+          {
+              if (displayUser.Avatar.Contains("http"))
+              {
+                  <img src="@displayUser.Avatar" class="avatar pic" alt="@displayUser.FirstName"/>
+              }
+              else
+              {
+                  <img src="~/avatars/@displayUser.Avatar" class="avatar pic" alt="@displayUser.FirstName"/>
+              }
+          }
+          else
+          {
+              <img src="https://app.subbynetwork.com/images/icons/logo.png" alt="@displayUser?.FirstName" class="avatar default pic"/>
+          }
+
+          @if (!chat.isread && chat.User.Id == displayUser.Id)
+          {
+             
+            <div class="name">
+               <strong> @displayUser?.FirstName @displayUser?.LastName</strong> 
+            </div>
+            <div class="message"><strong> @item.Title</strong> </div>
+          } else {
+            <div class="name">
+                @displayUser?.FirstName @displayUser?.LastName
+            </div>
+            <div class="message">@item.Title</div>
+          }
+        </a>
+      </div>
+    }
+
+    @* <div class="contact"> *@
+    @*   <img src="https://app.subbynetwork.com/images/icons/logo.png" class="avatar default pic"/> *@
+    @*   <div class="name"> *@
+    @*     Tony Stark *@
+    @*   </div> *@
+    @*   <div class="message"> *@
+    @*     Uh, he's from space, he came here to steal a necklace from a wizard. *@
+    @*   </div> *@
+    @* </div> *@
+    @* <div class="contact"> *@
+    @*   <img src="https://app.subbynetwork.com/images/icons/logo.png" class="avatar default pic"/> *@
+    @*   <div class="name"> *@
+    @*     Bruce Banner *@
+    @*   </div> *@
+    @*   <div class="message"> *@
+    @*     There's an Ant-Man *and* a Spider-Man? *@
+    @*   </div> *@
+    @* </div> *@
+    @* <div class="contact"> *@
+    @*   <img src="https://app.subbynetwork.com/images/icons/logo.png" class="avatar default pic"/> *@
+    @*   <div class="name"> *@
+    @*     Thor Odinson *@
+    @*   </div> *@
+    @*   <div class="message"> *@
+    @*     I like this one *@
+    @*   </div> *@
+    @* </div> *@
+    @* <div class="contact"> *@
+    @*   <img src="https://app.subbynetwork.com/images/icons/logo.png" class="avatar default pic"/> *@
+    @*   <div class="name"> *@
+    @*     Carol Danvers *@
+    @*   </div> *@
+    @*   <div class="message"> *@
+    @*     Hey Peter Parker, you got something for me? *@
+    @*   </div> *@
+    @* </div> *@
+  </div>
+</div>
+
+@section scripts
+{
+
+}

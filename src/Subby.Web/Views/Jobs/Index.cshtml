@@ -1,0 +1,228 @@
+﻿@using Subby.Utilities.Extensions
+@using Subby.Web.Models
+@using Subby.Web.ViewComponents
+@model LastContent.Utilities.Pagination.PagedResult<Subby.Core.Models.Job.JobModel>
+@{
+    ViewData["Title"] = "Jobs";
+    string filters = Context.Request.Query["filters"].ToString();
+    string keywords = Context.Request.Query["keywords"].ToString();
+}
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <div class="greetings">
+                    <img src="~/images/icons/logo.png" alt="SubbyNetwork" class="logo"/>
+                    <div class="greeting-body">
+                        <p>Welcome back</p>
+                        <h2>@User.Identity.FirstName()</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 ml-auto text-right">
+                <a href="" onclick="return false;" class="user-icon" data-toggle="modal" data-target="#sideMenuModal">
+                    <i class="nav-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                    </i>
+                    <span>Menu</span>
+                </a>
+                <a asp-controller="Jobs" asp-action="MyJobs" class="user-icon">
+                    <i class="nav-icon">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-card-checklist" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M14.5 3h-13a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                            <path fill-rule="evenodd" d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                        </svg>
+                    </i>
+                    <span>My Jobs</span>
+                </a>
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a asp-controller="Admin" asp-action="Index" class="user-icon">
+                        <i class="nav-icon">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"/>
+                                <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
+                            </svg>
+                        </i>
+                        <span>Admin</span>
+                    </a>
+                }
+
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="jobs-wrapper">
+        <div class="search-box">
+            <form id="search-form">
+                <div class="input-group mb-3">
+                  <input name="keywords" value="@keywords" type="text" id="search" class="form-control" placeholder="Search (Location or Job Title)"/>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                  </div>
+                </div>
+                @* <input name="keywords" value="@keywords" type="text" id="search" class="form-control" placeholder="Search"/> *@
+                @* <button type="submit" class="btn btn-link">Search</button> *@
+                @* <i class="glyphicon glyphicon-search" onclick="document.getElementById('search-form').submit();"></i> *@
+            </form>
+            @* <ul class="suggestions"> *@
+            @*     <li class="list-label">Filter for a city</li> *@
+            @*     <li class="list-label">or a state</li> *@
+            @*     <li> *@
+            @*         <a href=""> *@
+            @*             <span class="name">Chicago, Illinoi<span class="hl">s</span></span> *@
+            @*             <span class="population">2,718,782</span> *@
+            @*         </a> *@
+            @*     </li> *@
+            @* </ul> *@
+        </div>
+        @* <div class="search-form"> *@
+        @*     <form> *@
+        @*         <div class="input-group input-group-lg"> *@
+        @*             <div class="input-group-prepend"> *@
+        @*                 <span class="input-group-text"> *@
+        @*                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> *@
+        @*                         <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/> *@
+        @*                         <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/> *@
+        @*                     </svg> *@
+        @*                 </span> *@
+        @*             </div> *@
+        @*             <input type="text" class="form-control rounded-right" required> *@
+        @*             <div class="invalid-feedback"> *@
+        @*                 Please choose a username. *@
+        @*             </div> *@
+        @*         </div> *@
+        @*     </form> *@
+        @* </div> *@
+        <div class="btn-group d-flex job-filters" role="group" aria-label="Basic example">
+            <a asp-controller="Jobs" asp-action="Index" class="btn btn-outline-secondary @(filters == "" ? "active" : "")" asp-route-filters="">All</a>
+            <a asp-controller="Jobs" asp-action="Index" class="btn btn-outline-secondary @(filters == "new" ? "active" : "")" asp-route-filters="new">
+                @await Component.InvokeAsync("NewJobCount")
+                New Jobs
+            </a>
+            <a asp-controller="Jobs" asp-action="MyJobs" class="btn btn-outline-secondary @(filters == "myjobs" ? "active" : "")" asp-route-filters="myjobs">
+                @await Component.InvokeAsync("NewApplication")
+                MyJobs
+            </a>
+        </div>
+        <div class="job-counter">
+            <div class="row">
+                <div class="col-6">Total: <strong>@Model.RowCount</strong> jobs</div>
+                <div class="col-4 ml-auto text-right">
+                    <a asp-controller="Jobs"
+                       asp-action="New" class="btn btn-sm btn-primary">
+                        Post a job
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var job in Model.Items)
+            {
+                <div class="col-md-12 col-lg-6">
+                    <partial name="Partials/_PartialJobCard" model="job"/>
+                </div>
+            }
+            @if (Model.RowCount == 0)
+            {
+                <div class="col-md-6 offset-md-3 mt-5">
+                    <h5>No jobs currently match your search criteria</h5>
+                    <p>Search suggestions:</p>
+                    <ul>
+                        <li>Use a postcode instead of a city and county</li>
+                        <li>Make sure the city and county are spelt correctly</li>
+                        <li>Remove all active filters</li>
+                    </ul>
+                </div>
+            }
+
+        </div>
+        <div class="mt-2 mb-2">
+            @(await Component.InvokeAsync<PagerViewComponent>(Model))
+        </div>
+    </div>
+</div>
+<partial name="Partials/_PartialBottomStack"/>
+
+@section scripts
+{
+    <script>
+    
+    var options = {
+    	url: function(phrase) {
+    		return "api/search?phrase=" + phrase;
+    	},
+    
+    	getValue: "name",
+    	list: {
+            showAnimation: {
+                type: "fade", //normal|slide|fade
+                time: 400,
+                callback: function() {}
+            },
+    
+            hideAnimation: {
+                type: "slide", //normal|slide|fade
+                time: 400,
+                callback: function() {}
+            }
+        },
+    	template: {
+        		type: "custom",
+        		method: function(value, item) {
+        		    console.log(value, item);
+        		    return `<li>
+                                <a href=/jobs/details?slug=` + item.url + `>
+                                    <span class="name">` + value + `</span>
+                                    <span class="location">` + item.location +`</span>
+                                </a>
+                                </li>`;
+        			// return "<img src='" + item.icon + "' /> | " + item.type + " | " + value;
+        		}
+        	}
+    };
+    
+    // $("#search").easyAutocomplete(options);
+    
+    // $(window).scroll(function () {
+    //     // End of the document reached?
+    //     if ($(document).height() - $(this).height() == $(this).scrollTop()) {
+    //         console.log("bottom");
+    //     }
+    // }); 
+    
+    var pageMixin = {
+            data: function () {
+                return {
+                    //These are reactive.  Changing them will change whether 
+                    //the related button is displayed
+                    page: 1,
+                    pageSize: 10,
+                    eventItems: [],
+                    noMoreData: false
+                };
+            },
+            methods: {
+                    
+                    loadPage: function(page) {
+                        $.getJSON(`/jobs?page=${page}`, function (data) {
+                            if (data.length == 0) {
+                                console.log('No more data');
+                                this.noMoreData = true;
+                            }
+                            else {
+                                this.eventItems = data.results;
+                            }
+                        }.bind(this));
+                    }
+            }
+        };
+        mixinArray.push(pageMixin);
+        
+    </script>
+}

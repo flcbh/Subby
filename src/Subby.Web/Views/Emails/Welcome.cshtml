@@ -1,0 +1,17 @@
+﻿@model Subby.Web.Models.EmailViewModels.ResetPasswordViewModel
+@{
+    ViewData["Title"] = "Sustainability Yard";
+}
+Hi @Model.Name
+<br />
+<br />
+Welcome to <span>Sustainability Yard</span>, your account have been created!
+<br />
+<br />
+You are just one step away from activating your account. Please click the following link, or copy and paste the whole link into your browser:
+<br />
+<br />
+<a href="@Model.CallBackUrl">@Model.CallBackUrl</a>
+<br />
+<br />
+This email is only valid for 2 hours.

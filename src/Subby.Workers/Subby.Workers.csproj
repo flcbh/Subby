@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="LastContent.Utilities" Version="1.1.13" />
+      <PackageReference Include="RestSharp" Version="107.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Subby.Core\Subby.Core.csproj" />
+      <ProjectReference Include="..\Subby.Utilities\Subby.Utilities.csproj" />
+    </ItemGroup>
+
+</Project>

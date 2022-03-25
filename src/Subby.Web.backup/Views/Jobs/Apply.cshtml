@@ -1,0 +1,98 @@
+﻿@using Subby.Web.Models
+@model Subby.Web.Models.JobViewModels.ApplyJobViewModel
+@{
+    ViewData["Title"] = "Apply a job";
+    var header = new Header
+    {
+        Title = "Apply",
+        DisplayReturn = true
+    };
+}
+<partial name="Partials/_PartialHeader" model="@header"/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-4">
+            <p>
+                You are applying for the role of: <br/>
+                <strong>@Model.Job.Title</strong> in @Model.Job.Location</p>
+            <p>To apply for this job please confirm your details below:</p>
+            <form method="post" asp-controller="Jobs" asp-action="Apply" enctype="multipart/form-data">
+                <input asp-for="JobId" type="hidden" class="form-control" placeholder=""/>
+                <div class="form-group">
+                    <label asp-for="Firstname" class="form-label"></label>
+                    <input asp-for="Firstname" class="form-control" placeholder=""/>
+                    <span asp-validation-for="Firstname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lastname" class="form-label"></label>
+                    <input asp-for="Lastname" class="form-control" placeholder=""/>
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" placeholder=""/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone" class="form-label"></label>
+                    <input asp-for="Phone" class="form-control" placeholder=""/>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Estimation" class="form-label"></label>
+                    <input asp-for="Estimation" class="form-control" placeholder="e.g. 3 to 6 weeks"/>
+                    <span asp-validation-for="Estimation" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Quote" class="form-label"></label>
+                    <input asp-for="Quote" class="form-control" placeholder="e.g. £300"/>
+                    <span asp-validation-for="Quote" class="text-danger"></span>
+                </div>
+                <div class="form-group check-toggle-wrap">
+                    <div class="row">
+                        <div class="col-10">
+                            <label for="EligibleToWorkInUk">Eligible to work in the UK</label>
+                        </div>
+                        <div class="col-2">
+                            <div class="check-toggle float-right">
+                                <label class="switch small" for="EligibleToWorkInUk">
+                                    <input type="checkbox" id="EligibleToWorkInUk" name="EligibleToWorkInUk" asp-for="EligibleToWorkInUk"/>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group check-toggle-wrap">
+                    <div class="row">
+                        <div class="col-10">
+                            <label for="EligibleToWorkInEu">Eligible to work in the EU</label>
+                        </div>
+                        <div class="col-2">
+                            <div class="check-toggle float-right">
+                                <label class="switch small" for="EligibleToWorkInEu">
+                                    <input type="checkbox" id="EligibleToWorkInEu" name="EligibleToWorkInEu" asp-for="EligibleToWorkInEu"/>
+                                    <div class="slider round"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="file">
+                        <input type="file" name="File" id="file" class="file-upload-field" aria-label="File browser example">
+                        <span class="file-custom">Upload your CV</span>
+                    </label>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 text-center">
+                        <button type="submit" id="apply-job" class="btn btn-primary btn-block mb-3">Apply</button>
+                        <p class="text-muted hint">By clicking Apply, you are agree to Sustainability Yard’s <a asp-controller="Policies" asp-action="Terms">Terms and Conditions</a>, <a asp-controller="Policies" asp-action="Terms">Privacy Notice</a> and <a asp-controller="Policies" asp-action="Terms">Cookie Policy</a>.</p>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

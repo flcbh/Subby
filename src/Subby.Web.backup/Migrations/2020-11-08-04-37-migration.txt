@@ -1,0 +1,15 @@
+
+    create table [BenefitSponsor] (
+        Id INT IDENTITY NOT NULL,
+       Benefit_id INT null,
+       Sponsor_id INT null,
+       primary key (Id)
+    )
+    alter table [BenefitSponsor] 
+        add constraint FK_3108400C 
+        foreign key (Benefit_id) 
+        references [Benefit]
+    alter table [BenefitSponsor] 
+        add constraint FK_D776BC5C 
+        foreign key (Sponsor_id) 
+        references [Sponsor]
