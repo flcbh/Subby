@@ -19,7 +19,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\Subby.Core\Subby.Core.csproj" />
     <ProjectReference Include="..\Subby.Utilities\Subby.Utilities.csproj" />
   </ItemGroup>
 </Project>

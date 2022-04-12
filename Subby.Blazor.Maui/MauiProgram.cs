@@ -51,7 +51,8 @@ namespace Subby.Blazor.Maui
                             .Build();
 
             var builder = MauiApp.CreateBuilder();
-            
+            IServiceCollection services = builder.Services; 
+
             builder
                 .RegisterBlazorMauiWebView()
                 .UseMauiApp<App>()
@@ -60,56 +61,55 @@ namespace Subby.Blazor.Maui
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 
-
             builder.Services.AddBlazorWebView();
             builder.Services.AddSingleton<WeatherForecastService>();
 
-            builder.Services.AddNHibernate(
-               Configuration.GetConnectionString("SQLConnection"),
-               Assembly.GetAssembly(typeof(Session)),
-               Assembly.GetAssembly(typeof(SessionMappingOverride)));
 
-            builder.Services.AddDistributedRedisCache(options =>
+            services.AddNHibernate(
+                Configuration.GetConnectionString("SQLConnection"),
+                Assembly.GetAssembly(typeof(Session)),
+                Assembly.GetAssembly(typeof(SessionMappingOverride)));
+
+            services.AddDistributedRedisCache(options =>
             {
                 options.Configuration = Configuration.GetConnectionString("RedisCache");
             });
 
-            builder.Services.AddHealthChecks();
-            builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+            services.AddHealthChecks();
+            services.AddControllersWithViews().AddNewtonsoftJson();
 
-            var viewBuilder = builder.Services.AddControllersWithViews(options => { })
+            var viewBuilder = services.AddControllersWithViews(options => { })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 }
-                ).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AccountController>())
+                ).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
                 .AddSessionStateTempDataProvider();
 
 #if DEBUG
             viewBuilder.AddRazorRuntimeCompilation();
 #endif
 
-            builder.Services.AddRazorPages();
-            builder.Services.AddRouting(options => options.LowercaseUrls = true);
-            builder.Services.AddSwaggerGen(c =>
+            services.AddRazorPages();
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
                 c.EnableAnnotations();
             });
 
             // add list services for diagnostic purposes - see https://github.com/ardalis/AspNetCoreStartupServices
-            builder.Services.Configure<Ardalis.ListStartupServices.ServiceConfig>(config =>
+            services.Configure<Ardalis.ListStartupServices.ServiceConfig>(config =>
             {
-                config.Services = new List<ServiceDescriptor>(builder.Services);
+                config.Services = new List<ServiceDescriptor>(services);
 
                 // optional - default path to view services is /listallservices - recommended to choose your own path
                 config.Path = "/listservices";
             });
 
-
-            builder.Services.AddRouting(options => options.LowercaseUrls = true);
-            builder.Services.AddCors(options =>
+            services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
                     builder =>
@@ -119,33 +119,15 @@ namespace Subby.Blazor.Maui
                             .AllowAnyMethod();
                     });
             });
-            builder.Services.AddSession(options =>
+            services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
 
-            ConfigureAuthentication(builder.Services);
-            builder.Services.AddHttpContextAccessor();
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.AddSession();
-            builder.Services.AddAutoMapper(typeof(AccountController));
-            builder.Services.Configure<SmtpConfig>(Configuration.GetSection(nameof(SmtpConfig)));
-            builder.Services.AddScoped<ISendInBlue, SendInBlue>();
-            builder.Services.AddScoped<IPushNotification, PushNotification>();
-            builder.Services.AddScoped<IAppCache, AppCache>();
-            builder.Services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
-            builder.Services.AddScoped<ICache, RedisCache>();
-            builder.Services.AddScoped<IFileUpload, FileUpload>();
-            builder.Services.AddScoped<INotificationService, NotificationService>();
-            builder.Services.AddServiceBus(Configuration, Configuration.GetConnectionString("SchedulerConnection"));
+            //----
 
-            return builder.Build();
-        }
-
-        private static void ConfigureAuthentication(IServiceCollection services)
-        {
             services.AddIdentity<User, Role>().AddDefaultTokenProviders();
             services.AddSingleton<IUserStore<User>, UserStore>();
             services.AddScoped<IUserClaimsPrincipalFactory<User>, AppClaimsPrincipalFactory>();
@@ -181,13 +163,18 @@ namespace Subby.Blazor.Maui
                 options.Cookie.Name = "App.Identity";
             });
 
-            //Enable Dual Authentication
+            // Enable Dual Authentication 
             var jwtIssuerOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
             services.Configure<JwtIssuerOptions>(jwtIssuerOptions);
             var appSettings = jwtIssuerOptions.Get<JwtIssuerOptions>();
             var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
 
             services.AddAuthentication()
+                //.AddFacebook(facebookOptions =>
+                //{
+                //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                //})
                 .AddJwtBearer(x =>
                 {
                     x.RequireHttpsMetadata = false;
@@ -215,55 +202,35 @@ namespace Subby.Blazor.Maui
                     };
                 });
 
+            // var keyFolder = Directory.GetCurrentDirectory() + "/data/key/";
+            // if (!Directory.Exists(keyFolder))
+            // {
+            //     Directory.CreateDirectory(keyFolder);
+            // }
+
             services.AddDataProtection()
                 // .PersistKeysToFileSystem(new DirectoryInfo(keyFolder))
                 .SetApplicationName("subbynetwork")
                 .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
+            //-----
+
+
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSession();
+            services.AddAutoMapper(typeof(MauiProgram));
+            services.Configure<SmtpConfig>(Configuration.GetSection(nameof(SmtpConfig)));
+            services.AddScoped<ISendInBlue, SendInBlue>();
+            services.AddScoped<IPushNotification, PushNotification>();
+            services.AddScoped<IAppCache, AppCache>();
+            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
+            services.AddScoped<ICache, RedisCache>();
+            services.AddScoped<IFileUpload, FileUpload>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddServiceBus(Configuration, Configuration.GetConnectionString("SchedulerConnection"));
+
+            return builder.Build();
         }
-
-        //public static void ConfigureContainer(ContainerBuilder builder)
-        //{
-        //    builder.RegisterModule(new DefaultInfrastructureModule(_env.EnvironmentName == "Development"));
-        //}
-
-
-        public static void Configure(IApplicationBuilder app)
-        {
-            //if (_env.EnvironmentName == "Development")
-            //{
-            //    app.UseBrowserLink();
-            //    app.UseDeveloperExceptionPage();
-            //    //app.UseShowAllServicesMiddleware();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/error");
-            //    app.UseApiLoggingMiddleware();
-            //    app.UseHsts();
-            //}
-
-            app.UseLoggingMiddleware();
-            app.UseExceptionMiddleware();
-            app.UseCors("AllowAll");
-            app.UseRouting();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseSession();
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), specifying the Swagger JSON endpoint.
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHealthChecks("/health");
-                endpoints.MapDefaultControllerRoute();
-                endpoints.MapRazorPages();
-            });
-        }
-
     }
 }

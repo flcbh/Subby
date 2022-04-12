@@ -1,4 +1,7 @@
-﻿namespace Subby.Blazor.Maui
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace Subby.Blazor.Maui
 {
     public partial class MainPage : ContentPage
     {
@@ -6,15 +9,16 @@
         {
             InitializeComponent();
 
-            var route = "Views/Adverts/Index.cshtml";
+            //var route = "/Adverts/Index";
 
-            WebView webView = new WebView
-            {
-                Source = route
-            };
+            //WebView webView = new WebView();
+            //webView.Source = route;
+            //webView.Reload();
 
             //webView.Focus();
             //Shell.Current.GoToAsync(route);
+
+            
         }
     }
 }

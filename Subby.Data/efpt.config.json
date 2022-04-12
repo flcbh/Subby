@@ -1,0 +1,207 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "SubbynetworkContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": null,
+   "ProjectRootNamespace": "Subby.Data",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Logs]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_BLOB_TRIGGERS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_CALENDARS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_CRON_TRIGGERS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_FIRED_TRIGGERS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_JOB_DETAILS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_LOCKS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_PAUSED_TRIGGER_GRPS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_SCHEDULER_STATE]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_SIMPLE_TRIGGERS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_SIMPROP_TRIGGERS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[QRTZ_TRIGGERS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Advert]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[AdvertCategory]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Audit]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Benefit]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[BenefitSponsor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Chat]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[ChatChannel]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[ChatMember]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Configuration]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Job]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[JobActivity]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[JobApplication]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[JobInterest]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[JobTrade]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Media]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[MediaMeta]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Notification]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Role]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Session]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Sponsor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Subscription]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[ToDoItem]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Trade]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[Transaction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[User]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[UserReview]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[UserToken]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[subbynetwork].[UserTrade]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ClearOldJobs]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[subbynetwork].[ClearOldJobs]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[subbynetwork].[getAddsByPostCode]",
+         "ObjectType": 1
+      }
+   ],
+   "UiHint": "Subby",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
