@@ -30,6 +30,7 @@
 		<SupportedOSPlatformVersion Condition="'$(TargetFramework)' == 'net6.0-android'">21.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
+		<PlatformTarget>AnyCPU</PlatformTarget>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -50,27 +51,11 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<!-- Required - WinUI does not yet have buildTransitive for everything -->
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
-		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
-	</ItemGroup>
-
-	<PropertyGroup Condition="$(TargetFramework.Contains('-windows'))">
-		<OutputType>WinExe</OutputType>
-		<RuntimeIdentifier>win10-x64</RuntimeIdentifier>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<Content Remove="appsettings.Development.json" />
-		<Content Remove="appsettings.json" />
-		<Content Remove="Properties\launchSettings.json" />
-	</ItemGroup>
-
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="6.0.4" />
+	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.16" />
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
@@ -82,7 +67,9 @@
 	    <PrivateAssets>all</PrivateAssets>
 	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	  <PackageReference Include="NHibernate.NetCore" Version="6.0.5" />
+	  <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.18" />
 	</ItemGroup>
 
 	<ItemGroup>

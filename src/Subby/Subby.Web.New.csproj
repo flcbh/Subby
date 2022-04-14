@@ -1459,4 +1459,9 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\subbynetwork\api\src\Subby.Infrastructure\Subby.Infrastructure.csproj" />
+    <ProjectReference Include="..\Subby.Core\Subby.Core.csproj" />
+  </ItemGroup>
+
 </Project>

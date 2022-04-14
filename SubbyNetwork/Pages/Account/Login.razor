@@ -1,5 +1,5 @@
 ﻿@page "/login"
-@using SubbyNetwork.Models
+@using SubbyNetwork.Models.AccountViewModels
 @using SubbyNetwork.Services
 @inject NavigationManager Navigation;
 @inject CustomAuthenticationStateProvider AuthStateProvider;
@@ -18,7 +18,7 @@
     </div>
     <div class="form-group">
         <label>Username</label>
-        <InputText id="email" @bind-Value="loginModel.Username" class="form-control" />
+        <InputText id="email" @bind-Value="loginModel.Email" class="form-control" />
     </div>
     <div class="form-group">
         <label>Password</label>

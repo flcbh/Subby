@@ -27,7 +27,7 @@ namespace Subby.Data
                 .Build();
 
             var connectionString = configuration.GetConnectionString("SQLConnection");
-            optionsBuilder.UseSqlServer("Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;encrypt=false;");
+            optionsBuilder.UseSqlServer("Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;");
         }
         public virtual DbSet<Advert> Advert { get; set; }
         public virtual DbSet<AdvertCategory> AdvertCategory { get; set; }
