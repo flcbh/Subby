@@ -94,11 +94,13 @@ namespace SubbyNetwork.Services
         private static byte[] Generate256BitsOfRandomEntropy()
         {
             var randomBytes = new byte[32]; // 32 Bytes will give us 256 bits.
+#pragma warning disable SYSLIB0023 // Type or member is obsolete
             using (var rngCsp = new RNGCryptoServiceProvider())
             {
                 // Fill the array with cryptographically secure random bytes.
                 rngCsp.GetBytes(randomBytes);
             }
+#pragma warning restore SYSLIB0023 // Type or member is obsolete
             return randomBytes;
         }
 

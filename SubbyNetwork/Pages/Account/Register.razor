@@ -57,12 +57,12 @@
     private RegisterViewModel RegisterModel = new RegisterViewModel();
     List<string> rdTrade = new List<string> { "True", "False"};
 
-    private async Task ValidSubmit()
+    private void ValidSubmit()
     {
         //if (await JSRuntime.InvokeAsync<object>("confirm",  $"Are you sure you want to include the user '{RegisterModel.Forename}'?".Cast<Object>().ToArray()))
         //return;
 
-        var successful = RegisterModel.Save(RegisterModel);
+        var successful =  RegisterModel.Save(RegisterModel);
 
         //Not successful, don't need to do anything
         if (!successful)

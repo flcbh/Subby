@@ -31,6 +31,13 @@
 		<SupportedOSPlatformVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$(TargetFramework.Contains('-windows'))">10.0.17763.0</TargetPlatformMinVersion>
 		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Nullable>disable</Nullable>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<SignAssembly>False</SignAssembly>
+		<EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+		<AndroidManifestApplicationInstallLocation>auto</AndroidManifestApplicationInstallLocation>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<MtouchDebug>False</MtouchDebug>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -52,65 +59,96 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <AndroidResource Remove="Pages\Advert\**" />
-	  <Compile Remove="Pages\Advert\**" />
-	  <Content Remove="Pages\Advert\**" />
-	  <EmbeddedResource Remove="Pages\Advert\**" />
-	  <MauiXaml Remove="Pages\Advert\**" />
-	  <None Remove="Pages\Advert\**" />
+		<AndroidResource Remove="Pages\Advert\**" />
+		<Compile Remove="Pages\Advert\**" />
+		<Content Remove="Pages\Advert\**" />
+		<EmbeddedResource Remove="Pages\Advert\**" />
+		<MauiXaml Remove="Pages\Advert\**" />
+		<None Remove="Pages\Advert\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="LastContent.Utilities" Version="1.1.13" />
-	  <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.4" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.4" />
-	  <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	  <PackageReference Include="NHibernate.NetCore" Version="6.0.5" />
+	  <Content Remove="Resources\appsettings.Development.json" />
+	  <Content Remove="Resources\appsettings.json" />
+	  <Content Remove="Resources\Settings.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Subby.Data\Subby.Data.csproj" />
+		<PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
+		<PackageReference Include="Ardalis.ListStartupServices" Version="1.1.3" />
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Cloudinary.Core" Version="1.31.0" />
+		<PackageReference Include="FirebaseAdmin" Version="2.3.0" />
+		<PackageReference Include="FluentValidation" Version="10.4.0" />
+		<PackageReference Include="LastContent.ServiceBus" Version="1.1.1" />
+		<PackageReference Include="LastContent.Utilities" Version="1.1.13" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.4" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="NHibernate.NetCore" Version="6.0.5" />
+		<PackageReference Include="RestSharp" Version="107.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+		<ProjectReference Include="..\Subby.Data\Subby.Data.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Pages\Adverts\" />
-	  <Folder Include="Pages\Chat\" />
-	  <Folder Include="Pages\Configuration\" />
-	  <Folder Include="Pages\Email\" />
-	  <Folder Include="Pages\FireBase\" />
-	  <Folder Include="Pages\Home\" />
-	  <Folder Include="Pages\Manage\" />
-	  <Folder Include="Pages\Chat\" />
-	  <Folder Include="Pages\Configuration\" />
-	  <Folder Include="Pages\Email\" />
-	  <Folder Include="Pages\FireBase\" />
-	  <Folder Include="Pages\Home\" />
-	  <Folder Include="Pages\Manage\" />
-	  <Folder Include="Pages\Review\" />
-	  <Folder Include="Pages\Payment\" />
-	  <Folder Include="Pages\Review\" />
-	  <Folder Include="Pages\Payment\" />
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Pages\Adverts\" />
+		<Folder Include="Pages\Chat\" />
+		<Folder Include="Pages\Configuration\" />
+		<Folder Include="Pages\Email\" />
+		<Folder Include="Pages\FireBase\" />
+		<Folder Include="Pages\Home\" />
+		<Folder Include="Pages\Manage\" />
+		<Folder Include="Pages\Chat\" />
+		<Folder Include="Pages\Configuration\" />
+		<Folder Include="Pages\Email\" />
+		<Folder Include="Pages\FireBase\" />
+		<Folder Include="Pages\Home\" />
+		<Folder Include="Pages\Manage\" />
+		<Folder Include="Pages\Review\" />
+		<Folder Include="Pages\Payment\" />
+		<Folder Include="Pages\Review\" />
+		<Folder Include="Pages\Payment\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Include="wwwroot\script.js" />
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionSubbyNetworkHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ItemGroup>
+	  <Compile Update="MauiProgram.cs">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Compile>
+	</ItemGroup>
+
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionSubbyNetworkHideInfoBar="True" />
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>

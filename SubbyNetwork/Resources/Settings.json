@@ -1,26 +1,9 @@
 {
-  "Authentication": {
-    "Facebook": {
-      "AppId": "1913692315543075",
-      "AppSecret": "1913692315543075"
-    }
-  },
-  "BusConfig": {
-    "Host": "eagle-01.rmq.cloudamqp.com",
-    "VirtualHost": "gmcjuslk",
-    "Username": "gmcjuslk",
-    "Password": "u62JlXBr1APpi7-IVEMSHNSbmn17DeYe",
-    "QueueName": "network-queue"
-  },
   "ConnectionStrings": {
     "SQLConnection": "Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;",
     "RedisCache": "redis-10626.c61.us-east-1-3.ec2.cloud.redislabs.com:10626,password=T14BcE0MfBsDeMXRR3EMRxj3lcmGtPkw",
     "LoggingConnection": "Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;",
     "SchedulerConnection": "Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;"
-  },
-  "JwtIssuerOptions": {
-    "Issuer": "SubbyNetwork",
-    "SecretKey": "hl4kaYVJyanayS0RW1gcrO2R05dLC6EIDssiqFw"
   },
   "Logging": {
     "IncludeScopes": false,
@@ -39,6 +22,10 @@
       }
     }
   },
+  "JwtIssuerOptions": {
+    "Issuer": "SubbyNetwork",
+    "SecretKey": "hl4kaYVJyanayS0RW1gcrO2R05dLC6EIDssiqFw"
+  },
   "SmtpConfig": {
     "Server": "smtp.sendgrid.net",
     "User": "apikey",
@@ -46,5 +33,18 @@
     "Port": "587",
     "From": "no-reply@subbynet.com",
     "live": true
+  },
+  "BusConfig": {
+    "Host": "eagle-01.rmq.cloudamqp.com",
+    "VirtualHost": "gmcjuslk",
+    "Username": "gmcjuslk",
+    "Password": "u62JlXBr1APpi7-IVEMSHNSbmn17DeYe",
+    "QueueName": "network-queue"
+  },
+  "Authentication": {
+    "Facebook": {
+      "AppId": "1913692315543075",
+      "AppSecret": "1913692315543075"
+    }
   }
 }
