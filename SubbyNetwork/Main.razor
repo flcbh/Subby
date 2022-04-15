@@ -19,3 +19,9 @@
         </CascadingAuthenticationState>
     </NotFound>
 </Router>
+
+@*@code {
+    string message = "";
+
+    public static async Task Alert() => await JSRuntime.InvokeAsync<string>("Alert", message);
+}*@

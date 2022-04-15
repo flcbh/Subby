@@ -1,12 +1,12 @@
 ﻿<h3>RedirectToLogin</h3>
 
 @inject NavigationManager navigationManager
-        <div class="loader loader-bouncing"><span>Redirecting...</span></div>
-        @code{
-        
-            protected override void OnInitialized()
-            {
-                navigationManager.NavigateTo("/Account/Login");
-            }
+
+<div class="loader loader-bouncing"><span>Redirecting...</span></div>
+@code {
+
+    protected override void OnInitialized()
+    {
+        navigationManager.NavigateTo("/Login");
+    }
         }
-    
