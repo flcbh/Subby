@@ -1,6 +1,8 @@
 ﻿@page "/login"
+@using Microsoft.AspNetCore.Identity
 @using SubbyNetwork.Models.AccountViewModels
 @using SubbyNetwork.Services
+@using Subby.Data
 @inject NavigationManager Navigation;
 @inject CustomAuthenticationStateProvider AuthStateProvider;
 
@@ -17,12 +19,23 @@
         Invalid login attempt, please correct and try again.
     </div>
     <div class="form-group">
-        <label>Username</label>
+        <label>Email</label>
         <InputText id="email" @bind-Value="loginModel.Email" class="form-control" />
     </div>
     <div class="form-group">
         <label>Password</label>
         <InputText id="password" type="password" @bind-Value="loginModel.Password" class="form-control" />
+    </div>
+    <br />
+    <div class="form-group">
+        <div class="wrap">
+            <div class="box left">
+                <button type="button" class="btn btn-primary w-100" @onclick="@ForgotPasswordEventClick">Forgot Password</button>
+            </div>
+            <div class="box right">
+                <button type="button" class="btn btn-primary w-100" @onclick="@RegisterNewEventClick">Register New</button>
+            </div>
+        </div>
     </div>
     <div class="form-group mt-1">
         <button type="submit" class="btn btn-primary w-100">Login Now</button>
@@ -32,10 +45,10 @@
 @code {
     private LoginViewModel loginModel = new();
 
-    private async Task HandleValidSubmit()
+    private async void HandleValidSubmit()
     {
         //Valiate user acount
-        var successful = loginModel.ValidateLogin(out string jwtToken);
+        var successful = loginModel.ValidateLoginAsync(out string jwtToken);
 
         //Not successful, don't need to do anything
         if (!successful)
@@ -45,4 +58,7 @@
         await AuthStateProvider.Login(jwtToken);
         Navigation.NavigateTo("/"); //Root URL
     }
+
+    private void ForgotPasswordEventClick() => Navigation.NavigateTo("/ForgotPassword");
+    private void RegisterNewEventClick() => Navigation.NavigateTo("/Register");
 }

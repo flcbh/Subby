@@ -1,4 +1,5 @@
-﻿using Subby.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Subby.Data;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,12 +9,12 @@ namespace SubbyNetwork.Models.AccountViewModels
     public class LoginViewModel
     {
         SubbynetworkContext db;
+        //private readonly SignInManager<User> _signInManager;
+
         public LoginViewModel()
         {
             db = new SubbynetworkContext();
-
         }
-
 
         [Required]
         [Display(Name = "Email")]
@@ -22,18 +23,20 @@ namespace SubbyNetwork.Models.AccountViewModels
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
         public bool LoginFailureHidden { get; set; } = true;
+        public bool RememberMe { get; private set; } = true;
 
-        public bool ValidateLogin(out string jwtToken)
+        public bool ValidateLoginAsync(out string jwtToken)
         {
             try
             {
                 var user = db.User.Where(u => u.UserName == Email).FirstOrDefault();
 
-                if (user != null) //Username.Equals("flcbh@hotmail.com") && Password.Equals("Dayvid19"))
+                //var result =  _signInManager.PasswordSignInAsync(Email, Password, RememberMe, lockoutOnFailure: false);
+
+                if (user != null)
                 {
-                    //if (GetHashString(user.PasswordHash) == Password)
+                    //if (result.Result.Succeeded)
                     //{
                         jwtToken = "ACC123456" + DateTime.Now.ToString();
                         return true;
