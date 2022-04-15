@@ -52,10 +52,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="LastContent.Utilities" Version="1.1.13" />
 	  <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.4" />
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.4" />
-	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="6.0.4" />
-	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.16" />
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
@@ -69,7 +68,6 @@
 	  </PackageReference>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	  <PackageReference Include="NHibernate.NetCore" Version="6.0.5" />
-	  <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.18" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -78,6 +76,23 @@
 
 	<ItemGroup>
 	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Pages\Admin\" />
+	  <Folder Include="Pages\Advert\" />
+	  <Folder Include="Pages\Chat\" />
+	  <Folder Include="Pages\Configuration\" />
+	  <Folder Include="Pages\Email\" />
+	  <Folder Include="Pages\FireBase\" />
+	  <Folder Include="Pages\Home\" />
+	  <Folder Include="Pages\Manage\" />
+	  <Folder Include="Pages\Review\" />
+	  <Folder Include="Pages\Payment\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\script.js" />
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionSubbyNetworkHideInfoBar="True" /></VisualStudio></ProjectExtensions>

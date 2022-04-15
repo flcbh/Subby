@@ -1,9 +1,21 @@
+using LastContent.Utilities.Caching;
+using LastContent.Utilities.GeoCoordinate;
+using Subby.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace SubbyNetwork.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        private SubbynetworkContext db;
+        private readonly IGeocoder geocoder;
+
+        public RegisterViewModel()
+        {
+            geocoder = new GoogleGeocoder(null, null, "AIzaSyA2LbhHIYOz1EWe_ld3uBLhFMib6KkUtpk");
+            this.db = new SubbynetworkContext();
+        }
+
         [Required]
         [Display(Name = "Forename")]
         public string Forename { get; set; }
@@ -32,5 +44,46 @@ namespace SubbyNetwork.Models.AccountViewModels
         [Required]
         public string Postcode { get; set; }
         public string PushToken { get; set; }
+
+        public bool Save(RegisterViewModel model)
+        {
+            if (model == null) return false;
+
+            var verify = db.User.Where(u => u.Email == model.Email).Any(); 
+            
+            if (verify) throw new InvalidOperationException("User already registered.");
+
+            var user = new User
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.Forename,
+                LastName = model.Surname,
+                IsTrader = model.IsTrader,
+                TradePostcode = model.Postcode,
+                Role = "User",
+                PushToken = model.PushToken
+            };
+
+            if (!string.IsNullOrEmpty(model.Postcode))
+            {
+                try
+                {
+                    var geoLocation = geocoder.FindCoordinates(model.Postcode, "GB");
+                    user.Latitude = geoLocation.Latitude.ToString();
+                    user.Longitude = geoLocation.Longitude.ToString();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex.InnerException);
+                }
+            }
+
+            //send confirmation email 
+
+            db.User.Add(user);
+
+            return true;
+        }
     }
 }

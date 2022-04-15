@@ -34,8 +34,7 @@ namespace SubbyNetwork
             builder.Services.AddDbContext<SubbynetworkContext>(x => x.UseSqlServer("Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;"));
 
             //builder.Services.AddBlazorWebView();
-            builder.Services.AddSingleton<WeatherForecastService>();
-
+            builder.Services.AddSingleton<SubbynetworkContext>();
 
             return builder.Build();
         }
