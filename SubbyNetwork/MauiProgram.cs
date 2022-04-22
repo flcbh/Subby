@@ -1,31 +1,21 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.DataProtection;
+﻿using LastContent.Utilities.Caching;
+using LastContent.Utilities.Email;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using Subby.Data;
 using SubbyNetwork.Interfaces;
-using SubbyNetwork.Models;
 using SubbyNetwork.Services;
 using System.Reflection;
-using System.Text;
-using LastContent.ServiceBus.Core;
-using LastContent.Utilities.Caching;
-using LastContent.Utilities.Email;
-using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
-using Microsoft.IdentityModel.Tokens;
 
 
 namespace SubbyNetwork
 {
     public static class MauiProgram
     {
-        public static IConfiguration _Configuration { get; set; }
+        public static IConfiguration Configuration { get; set; }
 
         public static MauiApp CreateMauiApp()
         {
@@ -68,7 +58,7 @@ namespace SubbyNetwork
             //                   .Build();
             //#endif
 
-            builder.Services.AddTransient<MainPage>();
+            //builder.Services.AddTransient<MainPage>();
             builder.Services.AddMauiBlazorWebView();
 
             //Register needed elements for authentication
@@ -85,32 +75,30 @@ namespace SubbyNetwork
             builder.Services.AddSingleton<SubbynetworkContext>();
 
 
-            SmtpConfig smtpConfig = new SmtpConfig();
-
-            smtpConfig.Port = appSettings.SelectToken("SmtpConfig").SelectToken("Port").Value<int>();
-            smtpConfig.Server = appSettings.SelectToken("SmtpConfig").SelectToken("Server").Value<string>();
-            smtpConfig.Pass = appSettings.SelectToken("SmtpConfig").SelectToken("Pass").Value<string>();
-            smtpConfig.User = appSettings.SelectToken("SmtpConfig").SelectToken("User").Value<string>();
-            smtpConfig.From = appSettings.SelectToken("SmtpConfig").SelectToken("From").Value<string>();
-            smtpConfig.Live = appSettings.SelectToken("SmtpConfig").SelectToken("live").Value<bool>();
+            //SmtpConfig smtpConfig = new()
+            //{
+            //    Port = appSettings.SelectToken("SmtpConfig").SelectToken("Port").Value<int>(),
+            //    Server = appSettings.SelectToken("SmtpConfig").SelectToken("Server").Value<string>(),
+            //    Pass = appSettings.SelectToken("SmtpConfig").SelectToken("Pass").Value<string>(),
+            //    User = appSettings.SelectToken("SmtpConfig").SelectToken("User").Value<string>(),
+            //    From = appSettings.SelectToken("SmtpConfig").SelectToken("From").Value<string>(),
+            //    Live = appSettings.SelectToken("SmtpConfig").SelectToken("live").Value<bool>()
+            //};
 
             //ConfigureAuthentication(builder);
 
-            builder.Services.AddHttpContextAccessor();
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.Configure<SmtpConfig>(builder.Configuration.GetSection(nameof(SmtpConfig)));
-            builder.Services.AddDbContext<SubbynetworkContext>(x => x.UseSqlServer("Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;"));
+            //builder.Services.AddDbContext<SubbynetworkContext>(x => x.UseSqlServer("Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;"));
 
-            builder.Services.AddSingleton<SubbynetworkContext>();
+            //builder.Services.AddSingleton<SubbynetworkContext>();
 
-            builder.Services.AddHttpContextAccessor();
-            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //builder.Services.Configure<SmtpConfig>(_Configuration.GetSection(nameof(SmtpConfig)));
-            builder.Services.AddScoped<ISendEmail, SendEmail>();
-            builder.Services.AddScoped<IPushNotification, PushNotification>();
-            builder.Services.AddScoped<IAppCache, AppCache>();
-            builder.Services.AddScoped<ICache, RedisCache>();
-            builder.Services.AddScoped<IFileUpload, FileUpload>();
+            //builder.Services.AddHttpContextAccessor();
+            //builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //builder.Services.Configure<SmtpConfig>(builder.Services.get.GetSection(nameof(SmtpConfig)));
+            //builder.Services.AddScoped<ISendEmail, SendEmail>();
+            //builder.Services.AddScoped<IPushNotification, PushNotification>();
+            //builder.Services.AddScoped<IAppCache, AppCache>();
+            //builder.Services.AddScoped<ICache, RedisCache>();
+            //builder.Services.AddScoped<IFileUpload, FileUpload>();
             //builder.Services.AddServiceBus(builder.Configuration, schedulerConnection);
             //builder.Services.AddServiceBus(builder.Configuration, builder.Configuration.GetConnectionString("SchedulerConnection"));
 
@@ -234,17 +222,5 @@ namespace SubbyNetwork
 
             return j;
         }
-    }
-
-    public class Settings
-    {
-        public int KeyOne { get; set; }
-        public bool KeyTwo { get; set; }
-        public NestedSettings KeyThree { get; set; } = null!;
-    }
-
-    public class NestedSettings
-    {
-        public string Message { get; set; } = null!;
     }
 }

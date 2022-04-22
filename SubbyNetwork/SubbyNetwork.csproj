@@ -59,29 +59,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AndroidResource Remove="Pages\Advert\**" />
-		<Compile Remove="Pages\Advert\**" />
-		<Content Remove="Pages\Advert\**" />
-		<EmbeddedResource Remove="Pages\Advert\**" />
-		<MauiXaml Remove="Pages\Advert\**" />
-		<None Remove="Pages\Advert\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Remove="Resources\appsettings.Development.json" />
-	  <Content Remove="Resources\appsettings.json" />
-	  <Content Remove="Resources\Settings.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
+		<!--<PackageReference Include="Ardalis.ApiEndpoints" Version="4.0.1" />
 		<PackageReference Include="Ardalis.ListStartupServices" Version="1.1.3" />
 		<PackageReference Include="AutoMapper" Version="11.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-		<PackageReference Include="Cloudinary.Core" Version="1.31.0" />
-		<PackageReference Include="FirebaseAdmin" Version="2.3.0" />
 		<PackageReference Include="FluentValidation" Version="10.4.0" />
-		<PackageReference Include="LastContent.ServiceBus" Version="1.1.1" />
+		<PackageReference Include="LastContent.ServiceBus" Version="1.1.1" />-->
+		<PackageReference Include="FirebaseAdmin" Version="2.3.0" />
+		<PackageReference Include="Cloudinary.Core" Version="1.31.0" />
 		<PackageReference Include="LastContent.Utilities" Version="1.1.13" />
 		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.4" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.4" />
@@ -123,7 +108,6 @@
 		<Folder Include="Pages\Configuration\" />
 		<Folder Include="Pages\Email\" />
 		<Folder Include="Pages\FireBase\" />
-		<Folder Include="Pages\Payment\" />
 		<Folder Include="Pages\Review\" />
 		<Folder Include="Pages\Review\" />
 	</ItemGroup>
