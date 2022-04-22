@@ -12,19 +12,19 @@
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div class="form-group">
-        <label>Forename</label>
+        <label>Fore name</label>
         <InputText id="Forename" @bind-Value="RegisterModel.Forename" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Surname</label>
+        <label>Sur name</label>
         <InputText id="Surname" @bind-Value="RegisterModel.Surname" class="form-control" />
     </div>
     <div class="form-group">
-        <label>Postcode</label>
+        <label>Post code</label>
         <InputText id="Postcode" @bind-Value="RegisterModel.Postcode" class="form-control" />
     </div>
     <div class="form-group">
-        <label>IsTrader</label> <br />
+        <label>Is Trader</label> <br />
         <InputRadioGroup @bind-Value="RegisterModel.IsTrader" class="form-control">
             @foreach (var item in rdTrade)
             {
@@ -41,7 +41,7 @@
         <InputText id="password" type="password" @bind-Value="RegisterModel.Password" class="form-control" />
     </div>
     <div class="form-group">
-        <label>ConfirmPassword</label>
+        <label>Confirm Password</label>
         <InputText id="ConfirmPassword" type="password" @bind-Value="RegisterModel.ConfirmPassword" class="form-control" />
     </div>
     <div class="form-group">
