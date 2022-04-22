@@ -1,10 +1,19 @@
 using Microsoft.AspNetCore.Http;
+using Subby.Data;
 using System.ComponentModel.DataAnnotations;
 
 namespace SubbyNetwork.Models.ManageViewModels
 {
-    public class IndexViewModel
+    public class ProfileViewModel
     {
+        private SubbynetworkContext db;
+
+        public ProfileViewModel()
+        {
+            db = new SubbynetworkContext();
+        }
+
+
         [Required]
         [Display(Name = "First name")]
         public string Firstname { get; set; }
@@ -54,6 +63,13 @@ namespace SubbyNetwork.Models.ManageViewModels
 
         public IFormFile File { get; set; }
         public string Avatar { get; set; }
+
+
+        public bool Save(ProfileViewModel model)
+        {
+            return true;
+        }
+
 
     }
 }

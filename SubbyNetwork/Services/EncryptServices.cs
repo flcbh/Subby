@@ -26,6 +26,7 @@ namespace SubbyNetwork.Services
             using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
+#pragma warning disable SYSLIB0022 // Type or member is obsolete
                 using (var symmetricKey = new RijndaelManaged())
                 {
                     symmetricKey.BlockSize = 256;
@@ -50,6 +51,7 @@ namespace SubbyNetwork.Services
                         }
                     }
                 }
+#pragma warning restore SYSLIB0022 // Type or member is obsolete
             }
         }
 
@@ -68,6 +70,7 @@ namespace SubbyNetwork.Services
             using (var password = new Rfc2898DeriveBytes(passPhrase, saltStringBytes, DerivationIterations))
             {
                 var keyBytes = password.GetBytes(Keysize / 8);
+#pragma warning disable SYSLIB0022 // Type or member is obsolete
                 using (var symmetricKey = new RijndaelManaged())
                 {
                     symmetricKey.BlockSize = 256;
@@ -88,6 +91,7 @@ namespace SubbyNetwork.Services
                         }
                     }
                 }
+#pragma warning restore SYSLIB0022 // Type or member is obsolete
             }
         }
 

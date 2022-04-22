@@ -1,13 +1,9 @@
-﻿using LastContent.ServiceBus.Core;
-using LastContent.Utilities.Caching;
-using LastContent.Utilities.Email;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using Subby.Data;
@@ -16,9 +12,14 @@ using SubbyNetwork.Models;
 using SubbyNetwork.Services;
 using System.Reflection;
 using System.Text;
+using LastContent.ServiceBus.Core;
+using LastContent.Utilities.Caching;
+using LastContent.Utilities.Email;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.DataProtection;
+
 
 namespace SubbyNetwork
 {
@@ -44,7 +45,6 @@ namespace SubbyNetwork
                 ?.FirstOrDefault(r => r.EndsWith("settings.json", StringComparison.OrdinalIgnoreCase));
             using var file = assembly.GetManifestResourceStream(resName);
             builder.Configuration.AddJsonStream(file);
-
 
             //#if __ANDROID__
             //            var documentsFolderPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
@@ -94,112 +94,120 @@ namespace SubbyNetwork
             smtpConfig.From = appSettings.SelectToken("SmtpConfig").SelectToken("From").Value<string>();
             smtpConfig.Live = appSettings.SelectToken("SmtpConfig").SelectToken("live").Value<bool>();
 
-            ConfigureAuthentication(builder);
+            //ConfigureAuthentication(builder);
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.Services.Configure<SmtpConfig>(builder.Configuration.GetSection(nameof(SmtpConfig)));
+            builder.Services.AddDbContext<SubbynetworkContext>(x => x.UseSqlServer("Data Source=tcp:susby.database.windows.net,1433;Initial Catalog=subbynetwork;Persist Security Info=False;User ID=subbynetwork1;Password=Sustainability123;MultipleActiveResultSets=True;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;"));
+
+            builder.Services.AddSingleton<SubbynetworkContext>();
+
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //builder.Services.Configure<SmtpConfig>(_Configuration.GetSection(nameof(SmtpConfig)));
             builder.Services.AddScoped<ISendEmail, SendEmail>();
             builder.Services.AddScoped<IPushNotification, PushNotification>();
             builder.Services.AddScoped<IAppCache, AppCache>();
             builder.Services.AddScoped<ICache, RedisCache>();
             builder.Services.AddScoped<IFileUpload, FileUpload>();
             //builder.Services.AddServiceBus(builder.Configuration, schedulerConnection);
+            //builder.Services.AddServiceBus(builder.Configuration, builder.Configuration.GetConnectionString("SchedulerConnection"));
 
 
             return builder.Build();
         }
 
-        private static void ConfigureAuthentication(MauiAppBuilder builder)
-        {
-            builder.Services.AddIdentity<User, Role>().AddDefaultTokenProviders();
-            builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, AppClaimsPrincipalFactory>();
+//        private static void ConfigureAuthentication(MauiAppBuilder builder)
+//        {
+//            //builder.Services.AddIdentityCore<User, Role>().AddDefaultTokenProviders();
+//            builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, AppClaimsPrincipalFactory>();
 
-            builder.Services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings.
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequiredUniqueChars = 0;
+//            builder.Services.Configure<IdentityOptions>(options =>
+//            {
+//                // Password settings.
+//                options.Password.RequireDigit = false;
+//                options.Password.RequireLowercase = false;
+//                options.Password.RequireNonAlphanumeric = false;
+//                options.Password.RequireUppercase = false;
+//                options.Password.RequiredLength = 6;
+//                options.Password.RequiredUniqueChars = 0;
 
-                // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
+//                // Lockout settings.
+//                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+//                options.Lockout.MaxFailedAccessAttempts = 5;
+//                options.Lockout.AllowedForNewUsers = true;
 
-                // User settings.
-                options.User.RequireUniqueEmail = true;
-            });
+//                // User settings.
+//                options.User.RequireUniqueEmail = true;
+//            });
 
-#if WINDOWS10_0_17763_0_OR_GREATER
+//#if WINDOWS10_0_17763_0_OR_GREATER
 
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromHours(5);
-                options.LoginPath = "/login";
-                options.AccessDeniedPath = "/accessDenied";
-                options.SlidingExpiration = false;
-                options.Cookie.Name = "App.Identity";
-            });
+//            builder.Services.ConfigureApplicationCookie(options =>
+//            {
+//                // Cookie settings
+//                options.Cookie.HttpOnly = true;
+//                options.ExpireTimeSpan = TimeSpan.FromHours(5);
+//                options.LoginPath = "/login";
+//                options.AccessDeniedPath = "/accessDenied";
+//                options.SlidingExpiration = false;
+//                options.Cookie.Name = "App.Identity";
+//            });
 
-#endif
+//#endif
 
-            // Enable Dual Authentication 
-            var jwtIssuerOptions = builder.Configuration.GetSection(nameof(JwtIssuerOptions));
-            builder.Services.Configure<JwtIssuerOptions>(jwtIssuerOptions);
-            var appSettings = jwtIssuerOptions.Get<JwtIssuerOptions>();
-            var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
+//            // Enable Dual Authentication 
+//            var jwtIssuerOptions = builder.Configuration.GetSection(nameof(JwtIssuerOptions));
+//            builder.Services.Configure<JwtIssuerOptions>(jwtIssuerOptions);
+//            var appSettings = jwtIssuerOptions.Get<JwtIssuerOptions>();
+//            var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
 
-            builder.Services.AddAuthentication();
-                //.AddFacebook(facebookOptions =>
-                //{
-                //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                //})
-                //.AddJwtBearer(x =>
-                //{
-                //    x.RequireHttpsMetadata = false;
-                //    x.SaveToken = true;
-                //    x.TokenValidationParameters = new TokenValidationParameters
-                //    {
-                //        ValidateIssuerSigningKey = true,
-                //        IssuerSigningKey = new SymmetricSecurityKey(key),
-                //        ValidateIssuer = true,
-                //        ValidIssuer = appSettings.Issuer,
-                //        ValidateAudience = false,
-                //        ValidateLifetime = true,
-                //        ClockSkew = TimeSpan.Zero
-                //    };
-                //    x.Events = new JwtBearerEvents
-                //    {
-                //        OnAuthenticationFailed = context =>
-                //        {
-                //            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                //            {
-                //                context.Response.Headers.Add("Token-Expired", "true");
-                //            }
-                //            return Task.CompletedTask;
-                //        }
-                //    };
-                //});
+//            builder.Services.AddAuthenticationCore();
+//                //.AddFacebook(facebookOptions =>
+//                //{
+//                //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+//                //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+//                //})
+//                //.AddJwtBearer(x =>
+//                //{
+//                //    x.RequireHttpsMetadata = false;
+//                //    x.SaveToken = true;
+//                //    x.TokenValidationParameters = new TokenValidationParameters
+//                //    {
+//                //        ValidateIssuerSigningKey = true,
+//                //        IssuerSigningKey = new SymmetricSecurityKey(key),
+//                //        ValidateIssuer = true,
+//                //        ValidIssuer = appSettings.Issuer,
+//                //        ValidateAudience = false,
+//                //        ValidateLifetime = true,
+//                //        ClockSkew = TimeSpan.Zero
+//                //    };
+//                //    x.Events = new JwtBearerEvents
+//                //    {
+//                //        OnAuthenticationFailed = context =>
+//                //        {
+//                //            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+//                //            {
+//                //                context.Response.Headers.Add("Token-Expired", "true");
+//                //            }
+//                //            return Task.CompletedTask;
+//                //        }
+//                //    };
+//                //});
 
-            // var keyFolder = Directory.GetCurrentDirectory() + "/data/key/";
-            // if (!Directory.Exists(keyFolder))
-            // {
-            //     Directory.CreateDirectory(keyFolder);
-            // }
+//            // var keyFolder = Directory.GetCurrentDirectory() + "/data/key/";
+//            // if (!Directory.Exists(keyFolder))
+//            // {
+//            //     Directory.CreateDirectory(keyFolder);
+//            // }
 
-            builder.Services.AddDataProtection()
-                // .PersistKeysToFileSystem(new DirectoryInfo(keyFolder))
-                .SetApplicationName("subbynetwork")
-                .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
+//            builder.Services.AddDataProtection()
+//                // .PersistKeysToFileSystem(new DirectoryInfo(keyFolder))
+//                .SetApplicationName("subbynetwork")
+//                .SetDefaultKeyLifetime(TimeSpan.FromDays(90));
 
-        }
+//        }
 
         public static JObject ReadSettings()
         {
