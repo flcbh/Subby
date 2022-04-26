@@ -4,17 +4,9 @@
     {
         public App()
         {
-            try
-            {
-                InitializeComponent();
+            InitializeComponent();
 
-                MainPage = new MainPage();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
+            MainPage = new MainPage();
         }
     }
 }

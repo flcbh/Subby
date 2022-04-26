@@ -5,6 +5,12 @@ namespace SubbyNetwork.Models.AdvertViewModels
 {
     public class NewAdvertViewModel
     {
+        public NewAdvertViewModel()
+        {
+
+        }
+
+
         public int Id { get; set; }
         public string ExternalLink { get; set; }
         public string Postcode { get; set; }
@@ -22,5 +28,7 @@ namespace SubbyNetwork.Models.AdvertViewModels
         public bool IsSold { get; set; }
         public bool IsFree { get; set; }
         public List<Media> MediaCollection { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
     }
 }

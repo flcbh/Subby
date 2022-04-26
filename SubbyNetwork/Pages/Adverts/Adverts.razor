@@ -1,7 +1,190 @@
 ﻿@page "/adverts"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Identity
+@using Newtonsoft.Json
+@using SubbyNetwork.Models.AdvertViewModels
+@using SubbyNetwork.Services
+@using Subby.Data
+@inject NavigationManager Navigation;
+@inject ISessionStorageService sessionStorage;
+@inject IAuthorizationService AuthorizationService;
+
 
 <h3>Adverts</h3>
 
+<div class="alert alert-info">
+    Averts.
+</div>
+
+
+<div class="container">
+    <div class="jobs-wrapper">
+        <div class="job-counter">
+
+            <form>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="control-group">
+                            <label class="control control--checkbox">
+                                <span>Free Items Only</span>
+                                <input type="checkbox" id="IsFree" name="IsFree" onchange="this.form.submit();" checked="@modelAdverts.IsFree" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="control-group">
+                            <label class="control control--checkbox">
+                                <span>Display Sold Items</span>
+                                <input type="checkbox" id="IsSold" name="IsSold" onchange="this.form.submit();" checked="@modelAdverts.IsSold" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="control-group">
+                            <label class="control pl-0 form-group">
+                                <span>Find within</span>
+
+                                <select class="form-select" id="miles" name="miles" onchange="this.form.submit();">
+
+                                    <option value="-1" selected="selected">None</option>
+                                    @for (var i = 1; i <= 10; i++)
+                                    {
+                                        var value = i * 10;
+                                        @if (@modelAdverts.Miles == @value)
+                                        {
+
+                                            <option value="@value" selected>@value</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@value">@value</option>
+                                        }
+                                    }
+
+                                </select>
+                                <span>Miles</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col-6">
+                    <small>Total: <strong>@modelAdverts.Items.Count</strong> ads</small>
+                </div>
+                <div class="col-6 ml-auto text-right">
+                    <button type="button" class="btn btn-sm btn-primary" @onclick="@SellItem">Sell an Item</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @foreach (var item in modelAdverts.Items)
+            {
+                <div class="col-md-12 col-lg-6">
+                    @*                    <a asp-controller="Adverts" asp-action="details" class="job-link" asp-route-id="@item.Id">
+                *@                        <div class="card advert-card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3" style="position: relative;">
+                                    @if (item.MediaNavigation.Any())
+                                    {
+                                        <img src="@item.MediaNavigation.FirstOrDefault()?.Src.Replace("/upload", "/upload/c_scale,w_300,f_auto,q_auto")" alt="@item.Title" class="lazy" />
+                                    }
+                                    else
+                                    {
+                                        <img src="../images/icons/logo.png" alt="@item.Title" class="avatar default lazy" />
+                                    }
+
+                                    @if (item.IsSold.Value)
+                                    {
+                                        <div style="background-image: url(https://res.cloudinary.com/subbynetwork/image/upload/v1637769641/subby-network/toppng.com-sold-png-929x620_1_s3fekl.png);
+                                                    background-size: contain;
+                                                    background-repeat: no-repeat;
+                                                    background-position: center; inset: 0px; height: 60px; max-width:80px;
+                                                    position: absolute; top: 0; margin-left: 15px; right: 0; bottom: 0; z-index: 1"></div>
+                                    }
+                                </div>
+                                <div class="col-6">
+                                    <h2>(item.Title.Truncate(35))</h2>
+                                    <p class="tag">Posted: @item.CreatedAt</p>
+                                    <p class="tag">Location: @item.Location</p>
+                                </div>
+                                <div class="col-3">
+                                    <div class="price-tag">
+                                        <span>Price:</span> @(item.IsFree.Value ? "Free" : item.Price)
+                                    </div>
+                                    <button type="button" class="btn btn-link contact-link" @onclick="@MoreDetails">More Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (CountItems() == 0)
+            {
+                <div class="col-md-6 offset-md-3 mt-5 text-center">
+                    <h5>No adverts currently match your search criteria</h5>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
 @code {
 
+    AdvertIndexViewModel<Advert> modelAdverts;
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    string email;
+
+    public Adverts()
+    {
+        //var json = sessionStorage.GetItemAsync<string>("advertItems");
+        //modelAdverts.Items = JsonConvert.DeserializeObject<IList<Advert>>(json.Result);
+
+
+        if (modelAdverts == null) modelAdverts = new();
+
+        modelAdverts = Filter().Result;
+
+    }
+
+    private async Task<AdvertIndexViewModel<Advert>> Filter()
+    {
+        //var user = (await authenticationStateTask).User;//------------------------
+
+        //email = await sessionStorage.GetItemAsync<string>("userEmail");
+
+        var result = modelAdverts.ReturnData(modelAdverts);
+
+        //string json = JsonConvert.SerializeObject(result.Items);
+        //await sessionStorage.SetItemAsync("advertItems", json);
+
+        return result;
+    }
+
+    private void MoreDetails() => Navigation.NavigateTo("/MoreDetails");
+    private void SellItem() => Navigation.NavigateTo("/SellItem");
+
+    private int CountItems()
+    {
+        return modelAdverts.Items.Count;
+    }
+
+    private IList<Advert> Items()
+    {
+        return modelAdverts.Items;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        email = await sessionStorage.GetItemAsync<string>("userEmail");
+    }
 }

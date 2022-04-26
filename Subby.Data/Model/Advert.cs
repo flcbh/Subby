@@ -63,5 +63,10 @@ namespace Subby.Data
         public virtual ICollection<ChatChannel> ChatChannel { get; set; }
         [InverseProperty("Advert")]
         public virtual ICollection<Media> MediaNavigation { get; set; }
+
+
+
     }
+
+
 }

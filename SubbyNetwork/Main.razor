@@ -1,21 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 
-<Router AppAssembly="@GetType().Assembly">
-    <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-            <Authorizing>
-                Authorizing...
-            </Authorizing>
-            <NotAuthorized>
-                <RedirectToLogin />
-            </NotAuthorized>
-        </AuthorizeRouteView>
-    </Found>
-    <NotFound>
-        <CascadingAuthenticationState>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </CascadingAuthenticationState>
-    </NotFound>
-</Router>
+<CascadingAuthenticationState>
+    <Router AppAssembly="@GetType().Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <h1>Authorization in progress</h1>
+                    <p>Only visible while authorization is in progress.</p>
+                </Authorizing>
+                <NotAuthorized>
+                    <h1>Sorry</h1>
+                    <p>You're not authorized to reach this page.</p>
+                    <p>You may need to log in as a different user.</p>
+
+                    <RedirectToLogin />
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <CascadingAuthenticationState>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <h1>Sorry</h1>
+                    <p>Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </CascadingAuthenticationState>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

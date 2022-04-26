@@ -1,10 +1,9 @@
 ﻿@page "/login"
 @using Microsoft.AspNetCore.Identity
 @using SubbyNetwork.Models.AccountViewModels
-@using SubbyNetwork.Services
-@using Subby.Data
 @inject NavigationManager Navigation;
 @inject CustomAuthenticationStateProvider AuthStateProvider;
+
 
 <h3>Login to Access Sustainability Yard</h3>
 
@@ -53,6 +52,8 @@
         //Not successful, don't need to do anything
         if (!successful)
             return;
+
+        //await sessionStorage.SetItemAsync("userEmail", loginModel.Email);
 
         //Call login and recirect
         await AuthStateProvider.Login(jwtToken);

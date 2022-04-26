@@ -25,3 +25,25 @@
 </body>
 
 </html>
+
+<script>
+
+	$(document).ready(function (e) {
+		function isSelected(value, selected) {
+			console.log(value, selected);
+			return selected === value;
+		}
+
+		$('.search-panel .dropdown-menu').find('a').click(function (e) {
+			e.preventDefault();
+			var param = $(this).attr("href").replace("#", "");
+			var id = $(this).data('id');
+			var concept = $(this).text();
+			console.log(id);
+			$('.search-panel span#search_concept').text(concept);
+			$('#search_param').val(id);
+
+			$(this).closest('form').submit();
+		});
+	});
+</script>

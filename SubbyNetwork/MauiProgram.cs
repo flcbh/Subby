@@ -1,4 +1,5 @@
-﻿using LastContent.Utilities.Caching;
+﻿using Blazored.SessionStorage;
+using LastContent.Utilities.Caching;
 using LastContent.Utilities.Email;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -58,8 +59,11 @@ namespace SubbyNetwork
             //                   .Build();
             //#endif
 
+            builder.Services.AddBlazoredSessionStorage();
+
             //builder.Services.AddTransient<MainPage>();
             builder.Services.AddMauiBlazorWebView();
+
 
             //Register needed elements for authentication
             builder.Services.AddAuthorizationCore(); // This is the core functionality
